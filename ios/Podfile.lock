@@ -1,0 +1,16 @@
+PODS:
+  - sharedmobile (1.0)
+
+DEPENDENCIES:
+  - sharedmobile (from `../sharedmobile`)
+
+EXTERNAL SOURCES:
+  sharedmobile:
+    :path: "../sharedmobile"
+
+SPEC CHECKSUMS:
+  sharedmobile: ff15bbb87118e634e7c91cc3c116ba1e47435b15
+
+PODFILE CHECKSUM: 3e7ad0acb7d778b9dda81a9226d0149693c78c1f
+
+COCOAPODS: 1.12.1

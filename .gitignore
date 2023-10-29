@@ -3,6 +3,12 @@
 *.ap_
 *.aab
 
+# macos files
+*.DS_Store
+
+#idea files
+.idea/*
+
 # Files for the ART/Dalvik VM
 *.dex
 
