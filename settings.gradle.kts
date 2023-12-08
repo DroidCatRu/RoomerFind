@@ -15,7 +15,11 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "RoomerFind"
-include(":android")
-include(":sharedmobile")
 include(":server")
 include(":core:model")
+include(":roomerFindApp")
+include(":feature:auth:api")
+include(":feature:auth:internal")
+include(":feature:auth:compose")
+include(":core:ui")
+include(":core:mvi")

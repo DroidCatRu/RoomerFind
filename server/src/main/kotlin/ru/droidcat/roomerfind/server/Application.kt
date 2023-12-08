@@ -1,12 +1,11 @@
 package ru.droidcat.roomerfind.server
 
 import com.typesafe.config.ConfigFactory
-import io.ktor.server.config.*
+import io.ktor.server.config.HoconApplicationConfig
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.exists
 import org.jetbrains.exposed.sql.transactions.transaction
 import ru.droidcat.roomerfind.server.database.contact_info.ContactInfo
 import ru.droidcat.roomerfind.server.database.geopositions.Geopositions
@@ -16,11 +15,12 @@ import ru.droidcat.roomerfind.server.database.tokens.Tokens
 import ru.droidcat.roomerfind.server.database.user_credentials.UserCredentials
 import ru.droidcat.roomerfind.server.database.user_info.UserInfo
 import ru.droidcat.roomerfind.server.database.user_photo.UserPhoto
-import ru.droidcat.roomerfind.server.plugins.*
 import ru.droidcat.roomerfind.server.features.login.configureLoginRouting
 import ru.droidcat.roomerfind.server.features.main_logic.configureLogicRouting
 import ru.droidcat.roomerfind.server.features.register.configureRegisterRouting
 import ru.droidcat.roomerfind.server.features.user.configureUserRouting
+import ru.droidcat.roomerfind.server.plugins.configureAuthentication
+import ru.droidcat.roomerfind.server.plugins.configureSerialization
 
 fun main() {
 

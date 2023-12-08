@@ -1,57 +1,91 @@
 [versions]
-agp = "8.1.2"
-kotlin = "1.9.10"
-compose = "1.5.3"
-compose-compiler = "1.5.3"
-compose-material3 = "1.1.2"
-androidx-activityCompose = "1.8.0"
+agp = "8.2.0"
+
+kotlin = "1.9.21"
+
+android-minSdk = "24"
+android-compileSdk = "34"
+android-targetSdk = "34"
+
+jvmTarget = "17"
+javaVersion = "VERSION_17"
+
+compose-plugin = "1.5.11"
+compose-compiler = "1.5.4"
+androidx-activityCompose = "1.8.1"
 
 koin = "3.5.1"
 
-ktor = "2.3.5"
-hikari = "5.0.1"
+ktor = "2.3.6"
+exposed = "0.45.0"
 sqldelight = "2.0.0"
 postgresql = "42.6.0"
+jbcrypt = "0.4"
 
 uuid = "0.8.1"
 
 datetime = "0.4.1"
 
+mapLibre = "10.2.0"
+
+decompose = "2.2.0-compose-experimental"
+mviKotlin = "3.2.1"
+
+kotlinx-coroutines = "1.7.3"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core" }
 koin-ktor = { module = "io.insert-koin:koin-ktor" }
 koin-android = { module = "io.insert-koin:koin-android" }
 
-ktor-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
-ktor-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
-hikari = { module = "com.zaxxer:HikariCP", version.ref = "hikari" }
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
+ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
 
-sqldelight-primitives = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqldelight" }
-sqldelight-postgresql = { module = "app.cash.sqldelight:postgresql-dialect", version.ref = "sqldelight" }
-sqldelight-jdbc-driver = { module = "app.cash.sqldelight:jdbc-driver", version.ref = "sqldelight" }
+exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
+exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+
 postgresql-driver = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 
 uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
 
+jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
+
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
+maplibre = { module = "org.maplibre.gl:android-sdk", version.ref = "mapLibre" }
+
+decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+decompose-compose = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
+
+mvikotlin = { module = "com.arkivanov.mvikotlin:mvikotlin", version.ref = "mviKotlin" }
+mvikotlin-main = { module = "com.arkivanov.mvikotlin:mvikotlin-main", version.ref = "mviKotlin" }
+mvikotlin-coroutines = { module = "com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines", version.ref = "mviKotlin" }
+
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
+
+jb-compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+
+darwinParcelize = { id = "com.arkivanov.parcelize.darwin", version = "0.1.4" }
 
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
