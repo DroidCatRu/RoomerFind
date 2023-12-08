@@ -38,6 +38,23 @@ object ContactInfo : IntIdTable() {
         }
     }
 
+    fun getContactById(id: Int): ContactInfoDTO? {
+        return try {
+            transaction {
+                ContactInfo.select { ContactInfo.id eq id }.map {
+                    ContactInfoDTO (
+                        phone = it[phone],
+                        email = it[email],
+                        priority = it[priority]
+                    )
+                }.single()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     fun updateContacts(token: String, userContacts: ContactsReceiveRemote): Boolean {
         if ((userContacts.priority != 0) and (userContacts.priority != 1))
             return false

@@ -2,19 +2,18 @@ package ru.droidcat.roomerfind.server.database.user_info
 
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
 import ru.droidcat.roomerfind.server.database.contact_info.ContactInfo
-import ru.droidcat.roomerfind.server.database.contact_info.ContactInfoDTO
 import ru.droidcat.roomerfind.server.database.preferences.Preferences
-import ru.droidcat.roomerfind.server.database.preferences.PreferencesDTO
 import ru.droidcat.roomerfind.server.database.tokens.Tokens
 import ru.droidcat.roomerfind.server.database.user_credentials.UserCredentials
 import ru.droidcat.roomerfind.server.database.user_photo.UserPhoto
-import ru.droidcat.roomerfind.server.features.user.ContactsReceiveRemote
-import ru.droidcat.roomerfind.server.features.user.RoommatePrefsReceiveRemote
+import ru.droidcat.roomerfind.server.database.user_photo.UserPhotoDTO
 import ru.droidcat.roomerfind.server.features.user.UserIDReceiveRemote
 import ru.droidcat.roomerfind.server.features.user.UserInfoReceiveRemote
+import ru.droidcat.roomerfind.server.features.user.UserPhotoRemote
 
 object UserInfo : IntIdTable() {
 
@@ -138,10 +137,13 @@ object UserInfo : IntIdTable() {
         }
     }
 
-    fun getFinders(token: String) {
+    fun getFinders(token: String): Map<Int, UserInfoDTO?>? {
+        val matchedFinders = mutableMapOf<Int, UserInfoDTO?>()
+
         try {
             transaction {
-                val userId = getUserIdByToken(token)
+                val userId = getUserIdByToken(token) ?: return@transaction null
+
                 TransactionManager.current().exec(
                     "SELECT f.user_id, f.lat, f.lon, f.rad " +
                             "FROM geopositions f " +
@@ -153,12 +155,50 @@ object UserInfo : IntIdTable() {
                                         "FROM reactions " +
                                         "WHERE user_id = $userId )" ){rs ->
                     while (rs.next()){
-                        println(rs.getString("user_id") + rs.getString("lat") + rs.getString("lon") + rs.getString("rad"))
+                        val id = rs.getString("user_id").toInt()
+                        matchedFinders[id] = UserInfo.getUserById(UserIDReceiveRemote(id))
                     }
                 }
             }
+            return matchedFinders
         } catch (e: Exception) {
             e.printStackTrace()
+            return null
+        }
+    }
+
+    fun getPhoto(token: String): UserPhotoDTO? {
+        return try {
+            transaction {
+                val user = getUserByToken(token) ?: return@transaction null
+
+                UserPhoto.select{UserPhoto.id eq user.photo}.map {
+                    UserPhotoDTO(img = it[UserPhoto.img])
+                }.single()
+            }
+        } catch (e:Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun setPhoto(token: String, photo: UserPhotoRemote): Boolean {
+        return try {
+            transaction {
+
+                val photoRowId = UserPhoto.insertAndGetId{
+                    it[UserPhoto.img] = photo.photo
+                }.value
+
+                val userId = getUserIdByToken(token)
+                UserInfo.update({ UserInfo.id eq userId }) {
+                    it[UserInfo.photo] = photoRowId
+                }
+            }
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
         }
     }
 }

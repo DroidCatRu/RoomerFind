@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 class ReactionDTO (
     val userId: Int,
     val targetId: Int,
-    val reaction: Int // 0 for "dislike" | 1 for "like"
+    val userReaction: Int, // 0 for "dislike" | 1 for "like"
+    val targetReaction: Int // 0 for "dislike" | 1 for "like"
 )

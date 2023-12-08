@@ -110,6 +110,11 @@ fun Application.configureUserRouting() {
                     call.respond(HttpStatusCode.BadRequest)
             }
 
+            get ("user-contacts-by-id") {
+                val userController = UserController(call)
+                userController.getContactInfoById()
+            }
+
             post ("user-contacts-edit") {
                 val userController = UserController(call)
                 val token = call.request.headers["Authorization"]
@@ -117,6 +122,28 @@ fun Application.configureUserRouting() {
                     ?.get(1)
                 if (token != null)
                     userController.setContactInfo(token)
+                else
+                    call.respond(HttpStatusCode.BadRequest)
+            }
+
+            get ("user-photo") {
+                val userController = UserController(call)
+                val token = call.request.headers["Authorization"]
+                    ?.split(" ")
+                    ?.get(1)
+                if (token != null)
+                    userController.getUserPhoto(token)
+                else
+                    call.respond(HttpStatusCode.BadRequest)
+            }
+
+            get ("user-photo-edit") {
+                val userController = UserController(call)
+                val token = call.request.headers["Authorization"]
+                    ?.split(" ")
+                    ?.get(1)
+                if (token != null)
+                    userController.setUserPhoto(token)
                 else
                     call.respond(HttpStatusCode.BadRequest)
             }
