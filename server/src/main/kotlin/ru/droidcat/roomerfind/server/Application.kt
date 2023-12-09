@@ -39,7 +39,9 @@ fun main() {
                 Tokens, Preferences, Geopositions, ContactInfo, Reactions)
        }
 
-        embeddedServer(Netty, port = 8080, host = "0.0.0.0"){
+        embeddedServer(Netty,
+            port = config.property("server_params.port").getString().toInt(),
+            host = config.property("server_params.host").getString()){
             configureAuthentication()
             configureSerialization()
             configureLoginRouting()

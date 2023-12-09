@@ -12,6 +12,13 @@ import java.util.*
 
 class LoginController(private val call: ApplicationCall) {
 
+    /**
+    * Performs user login via login and password
+    *
+    * input: login, password
+    *
+    * returns: access token
+    **/
     suspend fun performLogin() {
         val receive = call.receive<LoginReceiveRemote>()
 

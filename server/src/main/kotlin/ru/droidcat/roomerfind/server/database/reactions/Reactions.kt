@@ -17,7 +17,8 @@ object Reactions: IntIdTable() {
 
     val userId = reference("user_id", UserInfo)
     val targetId = reference("target_id", UserInfo)
-    val reaction = Reactions.integer("reaction")
+    val userReaction = Reactions.integer("user_reaction")
+    val targetReaction = Reactions.integer("target_reaction")
 
     fun reactToTarget(token: String, reactionReceiveRemote: ReactionReceiveRemote): Boolean {
         return try {
@@ -27,7 +28,8 @@ object Reactions: IntIdTable() {
                     Reactions.insert {
                         it[Reactions.userId] = userId
                         it[targetId] = reactionReceiveRemote.targetId
-                        it[reaction] = reactionReceiveRemote.reaction
+                        it[userReaction] = reactionReceiveRemote.userReaction
+                        it[targetReaction] = reactionReceiveRemote.targetReaction
                     }
                 } else {
                     false
@@ -40,25 +42,26 @@ object Reactions: IntIdTable() {
         }
     }
 
-    fun getMatches(token: String): List<UserInfoDTO>? {
-        return try {
+    fun getMatches(token: String): Map<Int, UserInfoDTO?>? {
+        val matched = mutableMapOf<Int, UserInfoDTO?>()
+        try {
             transaction {
-                val userId = UserInfo.getUserIdByToken(token)
-                if (userId != null) {
-                    Reactions
-                        .select {
-                            (Reactions.userId eq userId) and
-                            (reaction eq 1)
-                        }.map { it[targetId].value }
-                        .toList()
-                        .mapNotNull { id -> UserInfo.getUserById(UserIDReceiveRemote(id)) }
-                } else {
-                    null
+                val userId = UserInfo.getUserIdByToken(token) ?: return@transaction null
+                val matchedIds = Reactions
+                    .select {
+                        (Reactions.userId eq userId) and
+                        (userReaction eq 1) and
+                        (targetReaction eq 1)
+                    }.map { it[targetId].value }
+                    .toList()
+                for (id in matchedIds) {
+                    matched[id] = UserInfo.getUserById(UserIDReceiveRemote(id))
                 }
             }
+            return matched
         } catch (e: Exception) {
             e.printStackTrace()
-            null
+            return null
         }
     }
 }

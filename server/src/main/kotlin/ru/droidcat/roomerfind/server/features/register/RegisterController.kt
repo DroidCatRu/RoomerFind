@@ -16,6 +16,13 @@ import java.util.*
 
 class RegisterController(private val call: ApplicationCall) {
 
+    /**
+     * Performs user registration via login and password
+     *
+     * input: login, password
+     *
+     * returns: access token
+     **/
     suspend fun registerNewUser() {
         val registerReceiveRemote = call.receive<RegisterReceiveRemote>()
 

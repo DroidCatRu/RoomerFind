@@ -38,3 +38,7 @@ data class ContactsReceiveRemote(
     val email: String,
     val priority: Int
 )
+
+data class UserPhotoRemote(
+    val photo: ByteArray
+)

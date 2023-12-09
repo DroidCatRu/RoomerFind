@@ -5,5 +5,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ReactionReceiveRemote (
     val targetId: Int,
-    val reaction: Int
+    val userReaction: Int,
+    val targetReaction: Int
 )

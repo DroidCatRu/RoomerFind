@@ -18,7 +18,7 @@ fun Application.configureLogicRouting() {
                     ?.split(" ")
                     ?.get(1)
                 if (token != null)
-                    logicController.getFinders(token) // Дорабатывается
+                    logicController.getFinders(token)
                 else
                     call.respond(HttpStatusCode.BadRequest)
             }
