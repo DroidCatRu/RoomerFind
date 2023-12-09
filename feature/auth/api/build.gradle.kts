@@ -19,7 +19,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.decompose)
+            api(projects.core.mvi)
         }
     }
 }

@@ -26,8 +26,10 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.mvi)
             implementation(projects.core.ui)
-            implementation(projects.feature.auth.internal)
-            implementation(projects.feature.auth.compose)
+            implementation(projects.feature.root.internal)
+            implementation(projects.feature.root.compose)
+            implementation(projects.feature.map.api)
+            implementation(projects.feature.map.compose)
         }
         androidMain.dependencies {
             implementation(libs.maplibre)

@@ -6,7 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import com.arkivanov.decompose.defaultComponentContext
-import ru.droidcat.feature.auth.internal.root.createAuthComponent
+import ru.droidcat.feature.map.compose.AndroidMapProvider
+import ru.droidcat.feature.root.internal.createRootComponent
 
 class MainActivity : ComponentActivity() {
 
@@ -15,14 +16,14 @@ class MainActivity : ComponentActivity() {
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        val authComponent = createAuthComponent(
+        val rootComponent = createRootComponent(
             componentContext = defaultComponentContext(),
         )
 
         setContent {
             App(
                 mapProvider = AndroidMapProvider(LocalContext.current),
-                authComponent = authComponent,
+                rootComponent = rootComponent,
             )
         }
     }

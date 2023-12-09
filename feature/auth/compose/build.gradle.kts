@@ -6,7 +6,7 @@ plugins {
 
 kotlin {
     androidTarget()
-    
+
     listOf(
         iosX64(),
         iosArm64(),

@@ -1,30 +1,29 @@
 package ru.droidcat.roomerfindapp
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import ru.droidcat.feature.auth.api.root.AuthComponent
-import ru.droidcat.feature.auth.compose.root.AuthContent
+import ru.droidcat.feature.map.compose.LocalMapProvider
+import ru.droidcat.feature.map.compose.NativeMapProvider
+import ru.droidcat.feature.root.api.RootComponent
+import ru.droidcat.feature.root.compose.RootContent
 
 @Composable
 fun App(
     mapProvider: NativeMapProvider,
-    authComponent: AuthComponent,
+    rootComponent: RootComponent,
 ) {
     CompositionLocalProvider(LocalMapProvider provides mapProvider) {
         RoomerFindTheme {
             Surface(
                 color = MaterialTheme.colorScheme.background,
             ) {
-                AuthContent(
+                RootContent(
                     modifier = Modifier.fillMaxSize(),
-                    component = authComponent,
+                    component = rootComponent,
                 )
             }
         }

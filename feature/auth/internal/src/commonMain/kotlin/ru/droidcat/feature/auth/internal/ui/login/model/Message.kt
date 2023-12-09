@@ -1,0 +1,8 @@
+package ru.droidcat.feature.auth.internal.ui.login.model
+
+internal sealed interface Message {
+
+    data class SetLogin(val login: String) : Message
+
+    data class SetPassword(val password: String) : Message
+}
