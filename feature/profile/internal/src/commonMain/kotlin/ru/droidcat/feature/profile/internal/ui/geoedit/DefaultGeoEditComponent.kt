@@ -5,10 +5,9 @@ import com.arkivanov.decompose.childContext
 import ru.droidcat.core.mvi.BaseComponentWithStore
 import ru.droidcat.feature.map.internal.createMapComponent
 import ru.droidcat.feature.profile.api.ui.geoedit.GeoEditComponent
+import ru.droidcat.feature.profile.api.ui.geoedit.model.GeoEditIntent
+import ru.droidcat.feature.profile.api.ui.geoedit.model.GeoEditIntent.OnLocationChange
 import ru.droidcat.feature.profile.api.ui.geoedit.model.GeoEditState
-import ru.droidcat.feature.profile.internal.ui.geoedit.model.Intent
-import ru.droidcat.feature.profile.internal.ui.geoedit.model.Intent.OnConfirm
-import ru.droidcat.feature.profile.internal.ui.geoedit.model.Intent.OnLocationChange
 import ru.droidcat.feature.profile.internal.ui.geoedit.model.Label
 import ru.droidcat.feature.profile.internal.ui.geoedit.model.Label.GeoSaved
 
@@ -17,7 +16,7 @@ private const val MAP_CHILD = "MapComponent"
 internal class DefaultGeoEditComponent(
     componentContext: ComponentContext,
     private val onBack: () -> Unit,
-) : GeoEditComponent, BaseComponentWithStore<Intent, GeoEditState, Label>(
+) : GeoEditComponent, BaseComponentWithStore<GeoEditIntent, GeoEditState, Label>(
     componentContext = componentContext,
     storeFactory = { get<DefaultGeoEditStore>() },
 ) {
@@ -35,19 +34,11 @@ internal class DefaultGeoEditComponent(
             is GeoSaved -> onBack()
         }
     }
-
-    override fun onConfirm() {
-        accept(OnConfirm)
-    }
-
-    override fun onDismiss() {
-        onBack()
-    }
 }
 
 fun createGeoEditComponent(
     componentContext: ComponentContext,
-    onBack: () -> Unit,
+    onBack: () -> Unit = {},
 ): GeoEditComponent = DefaultGeoEditComponent(
     componentContext = componentContext,
     onBack = onBack,

@@ -1,10 +1,10 @@
 package ru.droidcat.feature.finders.internal.ui.matches.model
 
-import ru.droidcat.feature.finders.api.model.SuggestionInfo
+import ru.droidcat.roomerfind.model.network.UserInfoDTO
 
 internal sealed interface Message {
 
     data class SetMatches(
-        val matches: List<SuggestionInfo.Defined>,
+        val matches: List<UserInfoDTO>,
     ) : Message
 }

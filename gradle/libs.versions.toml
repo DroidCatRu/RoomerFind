@@ -1,7 +1,7 @@
 [versions]
-agp = "8.2.0"
+agp = "8.2.2"
 
-kotlin = "1.9.21"
+kotlin = "1.9.23"
 
 android-minSdk = "24"
 android-compileSdk = "34"
@@ -10,29 +10,37 @@ android-targetSdk = "34"
 jvmTarget = "17"
 javaVersion = "VERSION_17"
 
-compose-plugin = "1.5.11"
+compose-plugin = "1.6.1"
 compose-compiler = "1.5.4"
-androidx-activityCompose = "1.8.1"
+androidx-activityCompose = "1.9.0"
 
 koin = "3.5.1"
 
-ktor = "2.3.6"
-exposed = "0.45.0"
-sqldelight = "2.0.0"
+ktor = "2.3.9"
+ktorm = "3.6.0"
+logback = "1.5.6"
+exposed = "0.49.0"
 postgresql = "42.6.0"
 jbcrypt = "0.4"
 
 uuid = "0.8.1"
 
-datetime = "0.4.1"
-
 mapLibre = "10.2.0"
 
-decompose = "2.2.0-compose-experimental"
-mviKotlin = "3.2.1"
+decompose = "3.0.0"
+mviKotlin = "4.0.0"
+essenty = "2.0.0"
 
-kotlinx-coroutines = "1.7.3"
-kotlinx-serialization = "1.6.0"
+napier = "2.7.1"
+
+preferences = "1.1.1"
+datastore = "1.1.1"
+
+kotlinx-coroutines = "1.8.0"
+kotlinx-serialization = "1.6.3"
+
+imageLoader = "1.7.8"
+cupertino = "0.1.0-alpha04"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -40,12 +48,21 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core" }
 koin-ktor = { module = "io.insert-koin:koin-ktor" }
+koin-ktor-logger = { module = "io.insert-koin:koin-logger-slf4j" }
 koin-android = { module = "io.insert-koin:koin-android" }
 
 ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
+ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor" }
+ktor-server-call-logging = { module = "io.ktor:ktor-server-call-logging", version.ref = "ktor" }
+ktor-server-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor" }
+ktor-server-status-pages = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor" }
+ktor-server-partial-content = { module = "io.ktor:ktor-server-partial-content", version.ref = "ktor" }
+ktor-server-autohead = { module = "io.ktor:ktor-server-auto-head-response", version.ref = "ktor" }
+
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
@@ -54,6 +71,9 @@ ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "k
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 
 ktor-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+ktorm-core = { module = "org.ktorm:ktorm-core", version.ref = "ktorm" }
+ktorm-postgre = { module = "org.ktorm:ktorm-support-postgresql", version.ref = "ktorm" }
 
 exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
 exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
@@ -69,17 +89,33 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
-kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 maplibre = { module = "org.maplibre.gl:android-sdk", version.ref = "mapLibre" }
 
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
-decompose-compose = { module = "com.arkivanov.decompose:extensions-compose-jetbrains", version.ref = "decompose" }
+decompose-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
+
+essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
+essenty-statekeeper = { module = "com.arkivanov.essenty:state-keeper", version.ref = "essenty" }
+essenty-instancekeeper = { module = "com.arkivanov.essenty:instance-keeper", version.ref = "essenty" }
 
 mvikotlin = { module = "com.arkivanov.mvikotlin:mvikotlin", version.ref = "mviKotlin" }
 mvikotlin-main = { module = "com.arkivanov.mvikotlin:mvikotlin-main", version.ref = "mviKotlin" }
 mvikotlin-coroutines = { module = "com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines", version.ref = "mviKotlin" }
+
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+
+preferences = { module = "com.russhwolf:multiplatform-settings", version.ref = "preferences" }
+preferences-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "preferences" }
+preferences-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "preferences" }
+
+androidx-datastore-core = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+androidx-datastore-preferencesCore = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
+
+imageLoader-core = { module = "io.github.qdsfdhvh:image-loader", version.ref = "imageLoader" }
+
+cupertino-decompose = { module = "io.github.alexzhirkevich:cupertino-decompose", version.ref = "cupertino" }
 
 
 [plugins]
@@ -87,6 +123,8 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
 jb-compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -97,5 +135,3 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 
 darwinParcelize = { id = "com.arkivanov.parcelize.darwin", version = "0.1.4" }
-
-sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }

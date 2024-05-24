@@ -20,6 +20,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.core.mvi)
+            api(projects.core.model)
             api(projects.feature.map.api)
             api(projects.feature.auth.api)
         }

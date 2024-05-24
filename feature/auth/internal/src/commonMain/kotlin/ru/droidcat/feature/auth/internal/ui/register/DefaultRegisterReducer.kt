@@ -8,15 +8,13 @@ import ru.droidcat.feature.auth.internal.ui.register.model.Message.SetPassword
 
 internal class DefaultRegisterReducer : Reducer<RegisterState, Message> {
 
-    override fun RegisterState.reduce(msg: Message): RegisterState {
-        return when (msg) {
-            is SetLogin -> this.copy(
-                login = msg.login,
-            )
+    override fun RegisterState.reduce(msg: Message): RegisterState = when (msg) {
+        is SetLogin -> this.copy(
+            email = msg.value,
+        )
 
-            is SetPassword -> this.copy(
-                password = msg.password,
-            )
-        }
+        is SetPassword -> this.copy(
+            password = msg.value,
+        )
     }
 }

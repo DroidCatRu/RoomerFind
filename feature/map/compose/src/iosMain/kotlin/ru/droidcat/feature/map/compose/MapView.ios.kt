@@ -2,12 +2,12 @@ package ru.droidcat.feature.map.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.QuartzCore.CATransaction
 import platform.QuartzCore.kCATransactionDisableActions
@@ -20,7 +20,7 @@ actual fun MapView(
     modifier: Modifier,
     nativeMapProvider: NativeMapProvider,
 ) {
-    val viewState by component.viewState.subscribeAsState()
+    val viewState by component.viewState.collectAsState()
 
     val cameraPosition by remember { derivedStateOf { viewState.markerPosition } }
 

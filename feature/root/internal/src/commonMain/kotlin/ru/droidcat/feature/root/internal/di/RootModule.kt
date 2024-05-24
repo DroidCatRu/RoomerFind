@@ -2,6 +2,7 @@ package ru.droidcat.feature.root.internal.di
 
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.scopedOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -15,6 +16,7 @@ import ru.droidcat.feature.root.internal.DefaultRootStore
 
 val rootModule = module {
     includes(
+        platformModule,
         authModule,
         profileModule,
         findersModule,
@@ -28,3 +30,5 @@ val rootModule = module {
         scopedOf(::DefaultRootStore)
     }
 }
+
+expect val platformModule: Module

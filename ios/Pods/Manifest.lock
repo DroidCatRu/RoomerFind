@@ -1,16 +1,16 @@
 PODS:
-  - sharedmobile (1.0)
+  - roomerFindApp (1.0)
 
 DEPENDENCIES:
-  - sharedmobile (from `../sharedmobile`)
+  - roomerFindApp (from `../roomerFindApp`)
 
 EXTERNAL SOURCES:
-  sharedmobile:
-    :path: "../sharedmobile"
+  roomerFindApp:
+    :path: "../roomerFindApp"
 
 SPEC CHECKSUMS:
-  sharedmobile: ff15bbb87118e634e7c91cc3c116ba1e47435b15
+  roomerFindApp: 503dcf728de97d4e4c89e3c82a29eef320634f6d
 
-PODFILE CHECKSUM: 3e7ad0acb7d778b9dda81a9226d0149693c78c1f
+PODFILE CHECKSUM: 222602a061aa9e718f2ddf23c4be1b103e1f015f
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.2

@@ -2,43 +2,41 @@ package ru.droidcat.feature.profile.compose
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
+import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import ru.droidcat.feature.profile.api.ui.root.ProfileComponent
-import ru.droidcat.feature.profile.api.ui.root.model.ProfileChild.GeoEditChild
-import ru.droidcat.feature.profile.api.ui.root.model.ProfileChild.PreferenceEditChild
-import ru.droidcat.feature.profile.api.ui.root.model.ProfileChild.ProfileEditChild
-import ru.droidcat.feature.profile.api.ui.root.model.ProfileChild.ProfileShowCaseChild
+import ru.droidcat.feature.profile.api.ui.root.model.ProfileRootSlot.GeoEditSlot
+import ru.droidcat.feature.profile.api.ui.root.model.ProfileRootSlot.PreferenceEditSlot
+import ru.droidcat.feature.profile.api.ui.root.model.ProfileRootSlot.ProfileEditSlot
 
 @Composable
 fun ProfileContent(
     component: ProfileComponent,
     modifier: Modifier = Modifier,
 ) {
-    Children(
-        stack = component.childStack,
+    ProfileShowCaseContent(
+        component = component.showCaseComponent,
         modifier = modifier,
-    ) {
-        when (val child = it.instance) {
-            is ProfileShowCaseChild -> ProfileShowCaseContent(
-                component = child.component,
-                modifier = Modifier.fillMaxSize(),
-            )
+    )
 
-            is ProfileEditChild -> ProfileEditContent(
-                component = child.component,
-                modifier = Modifier.fillMaxSize(),
-            )
+    val childSlot by component.childSlot.subscribeAsState()
+    when (val child = childSlot.child?.instance) {
+        is ProfileEditSlot -> ProfileEditContent(
+            component = child.component,
+            modifier = Modifier.fillMaxSize(),
+        )
 
-            is GeoEditChild -> GeoEditContent(
-                component = child.component,
-                modifier = Modifier.fillMaxSize(),
-            )
+        is GeoEditSlot -> GeoEditContent(
+            component = child.component,
+            modifier = Modifier.fillMaxSize(),
+        )
 
-            is PreferenceEditChild -> PreferenceEditContent(
-                component = child.component,
-                modifier = Modifier.fillMaxSize(),
-            )
-        }
+        is PreferenceEditSlot -> PreferenceEditContent(
+            component = child.component,
+            modifier = Modifier.fillMaxSize(),
+        )
+
+        else -> {}
     }
 }

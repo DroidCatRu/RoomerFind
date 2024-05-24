@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d42d7a15-da09-44d6-b3ad-de40ccdbeb81" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../roomerFindApp/src/iosMain/kotlin/ru/droidcat/roomerfindapp/KoinHelper.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../roomerFindApp/src/iosMain/kotlin/ru/droidcat/roomerfindapp/MainViewController.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../feature/finders/compose/src/commonMain/kotlin/ru/droidcat/feature/finders/compose/MatchesContent.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../feature/finders/compose/src/commonMain/kotlin/ru/droidcat/feature/finders/compose/MatchesContent.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../gradle.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/../gradle/libs.versions.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Podfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Podfile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Podfile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Local Podspecs/sharedmobile.podspec.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Manifest.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Manifest.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Pods.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Pods.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Pods.xcodeproj/xcuserdata/droidcat.xcuserdatad/xcschemes/sharedmobile.xcscheme" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Pods.xcodeproj/xcuserdata/droidcat.xcuserdatad/xcschemes/xcschememanagement.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Pods.xcodeproj/xcuserdata/droidcat.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-ios/Pods-ios.debug.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-ios/Pods-ios.release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/Pods/Target Support Files/Pods-ios/Pods-ios.release.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/sharedmobile/sharedmobile.debug.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/Pods/Target Support Files/sharedmobile/sharedmobile.release.xcconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/ios.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/ios.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/ios/ContentView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/ios/ContentView.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/ios/Preview Content/Preview Assets.xcassets/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ios/ios/iOSApp.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../ios/ios/iOSApp.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../roomerFindApp/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/../roomerFindApp/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../roomerFindApp/roomerFindApp.podspec" beforeDir="false" afterPath="$PROJECT_DIR$/../roomerFindApp/roomerFindApp.podspec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/sqldelight/ru/droidcat/roomerfind/server/Otp.sq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/sqldelight/ru/droidcat/roomerfind/server/User.sq" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/sqldelight/ru/droidcat/roomerfind/server/UserSession.sq" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2fNSmEh2enZpzqKrdWXgilO161X" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "android.gradle.sync.needed": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/droidcat/projects/RoomerFind/server"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d42d7a15-da09-44d6-b3ad-de40ccdbeb81" name="Changes" comment="" />
+      <created>1713640199622</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713640199622</updated>
+    </task>
+    <servers />
+  </component>
+</project>

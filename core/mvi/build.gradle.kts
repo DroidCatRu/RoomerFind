@@ -5,7 +5,7 @@ plugins {
 
 kotlin {
     androidTarget()
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -21,15 +21,16 @@ kotlin {
         commonMain.dependencies {
             implementation(project.dependencies.platform(libs.koin.bom))
             api(libs.decompose)
+            api(libs.cupertino.decompose)
             api(libs.mvikotlin)
             api(libs.mvikotlin.main)
             api(libs.mvikotlin.coroutines)
             api(libs.koin.core)
-            api(libs.kotlinx.coroutines.core)
+
+            api(projects.core.coroutines)
         }
         androidMain.dependencies {
             api(libs.koin.android)
-            api(libs.kotlinx.coroutines.android)
         }
     }
 }

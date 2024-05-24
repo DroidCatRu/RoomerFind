@@ -12,13 +12,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import ru.droidcat.feature.auth.api.ui.login.LoginComponent
+import ru.droidcat.feature.auth.api.ui.login.model.LoginIntent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,7 +27,7 @@ fun LoginContent(
     component: LoginComponent,
     modifier: Modifier = Modifier,
 ) {
-    val viewState by component.viewState.subscribeAsState()
+    val viewState by component.viewState.collectAsState()
 
     Scaffold(
         modifier = modifier,
@@ -53,8 +54,8 @@ fun LoginContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 OutlinedTextField(
-                    value = viewState.login,
-                    onValueChange = component::onLoginChange,
+                    value = viewState.email,
+                    onValueChange = { component.accept(LoginIntent.OnEmailChange(it)) },
                     label = {
                         Text(
                             text = "Логин",
@@ -63,7 +64,7 @@ fun LoginContent(
                 )
                 OutlinedTextField(
                     value = viewState.password,
-                    onValueChange = component::onPasswordChange,
+                    onValueChange = { component.accept(LoginIntent.OnPasswordChange(it)) },
                     label = {
                         Text(
                             text = "Пароль",
@@ -72,14 +73,14 @@ fun LoginContent(
                     visualTransformation = PasswordVisualTransformation(),
                 )
                 Button(
-                    onClick = component::onConfirm,
+                    onClick = { component.accept(LoginIntent.OnConfirm) },
                 ) {
                     Text(
                         text = "Войти в аккаунт",
                     )
                 }
                 Button(
-                    onClick = component::onRegisterRequest,
+                    onClick = { component.accept(LoginIntent.OnRegister) },
                 ) {
                     Text(
                         text = "Регистрация",

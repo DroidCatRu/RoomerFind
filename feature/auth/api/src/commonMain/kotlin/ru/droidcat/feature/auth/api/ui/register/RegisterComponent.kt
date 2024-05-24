@@ -1,17 +1,11 @@
 package ru.droidcat.feature.auth.api.ui.register
 
-import com.arkivanov.decompose.value.Value
+import kotlinx.coroutines.flow.StateFlow
+import ru.droidcat.core.mvi.IntentAcceptor
+import ru.droidcat.feature.auth.api.ui.register.model.RegisterIntent
 import ru.droidcat.feature.auth.api.ui.register.model.RegisterState
 
-interface RegisterComponent {
+interface RegisterComponent : IntentAcceptor<RegisterIntent> {
 
-    val viewState: Value<RegisterState>
-
-    fun onLoginChange(login: String)
-
-    fun onPasswordChange(password: String)
-
-    fun onConfirm()
-
-    fun onLoginRequest()
+    val viewState: StateFlow<RegisterState>
 }

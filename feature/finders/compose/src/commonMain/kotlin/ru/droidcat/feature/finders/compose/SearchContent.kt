@@ -1,96 +1,198 @@
 package ru.droidcat.feature.finders.compose
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import ru.droidcat.core.ui.AsyncImage
 import ru.droidcat.feature.finders.api.ui.search.SearchComponent
+import ru.droidcat.feature.finders.api.ui.search.model.SearchIntent
+import ru.droidcat.feature.finders.api.ui.search.model.SearchIntent.OnFinderProfileTap
+import ru.droidcat.feature.finders.api.ui.search.model.SearchIntent.OnUpdate
 import ru.droidcat.feature.finders.api.ui.search.model.SearchState.Loaded
+import ru.droidcat.feature.finders.api.ui.search.model.SearchState.Loading
+import ru.droidcat.feature.finders.api.ui.search.model.SearchState.NoProfile
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchContent(
     component: SearchComponent,
     modifier: Modifier = Modifier,
 ) {
-    val viewState by component.viewState.subscribeAsState()
+    val viewState by component.viewState.collectAsState()
 
-    Scaffold(
+    when (val state = viewState) {
+        is Loaded -> component.ProfileFound(
+            state = state,
+            modifier = modifier,
+        )
+
+        is Loading -> Loading(
+            modifier = modifier,
+        )
+
+        is NoProfile -> component.NoProfile(
+            modifier = modifier,
+        )
+    }
+}
+
+@Composable
+private fun SearchComponent.ProfileFound(
+    state: Loaded,
+    modifier: Modifier = Modifier,
+) {
+    Column(
         modifier = modifier,
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Предложения",
-                    )
-                },
-                actions = {
-                    IconButton(
-                        onClick = {},
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.Person,
-                            contentDescription = null,
-                        )
-                    }
-                },
-            )
+        verticalArrangement = Arrangement.spacedBy(
+            space = 32.dp,
+            alignment = Alignment.CenterVertically,
+        ),
+    ) {
+        ProfileCard(
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .aspectRatio(0.8f),
+            state = state,
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+        ) {
+            LikeButton { accept(SearchIntent.OnLike) }
+            DislikeButton { accept(SearchIntent.OnDislike) }
         }
-    ) { scaffoldPadding ->
-        (viewState as? Loaded)?.suggestions?.takeIf { it.isNotEmpty() }?.let { suggestions ->
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(scaffoldPadding),
-            ) {
-                items(suggestions) { match ->
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                    ) {
-                        match.name.takeIf { it.isNotBlank() }?.let { name ->
-                            Text(
-                                text = "Имя: $name",
-                            )
-                        }
-                        match.description.takeIf { it.isNotBlank() }?.let { desc ->
-                            Text(
-                                text = "Описание: $desc",
-                            )
-                        }
-                        match.age.takeIf { it.isNotBlank() }?.let { age ->
-                            Text(
-                                text = "Возраст: $age",
-                            )
-                        }
-                    }
-                }
-            }
+    }
+}
+
+@Composable
+private fun SearchComponent.ProfileCard(
+    state: Loaded,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier
+            .clickable { accept(OnFinderProfileTap(state.id)) }
+            .shadow(18.dp)
+            .clip(MaterialTheme.shapes.medium),
+    ) {
+        state.avatar?.let { url ->
+            AsyncImage(
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+                model = url,
+            )
         } ?: Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(scaffoldPadding),
-            contentAlignment = Alignment.Center,
+                .background(Color.LightGray),
+        ) {
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .fillMaxWidth(0.7f)
+                    .aspectRatio(1f),
+                imageVector = Icons.Outlined.Person,
+                contentDescription = null,
+            )
+        }
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .background(
+                    Brush.verticalGradient(
+                        0f to Color.Transparent,
+                        1f to Color.Black,
+                    )
+                )
+                .padding(top = 16.dp)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            Text(
+                text = state.title,
+                color = Color.White,
+                style = MaterialTheme.typography.displaySmall,
+            )
+            state.priceRange?.let { price ->
+                Text(
+                    text = price,
+                    color = Color.LightGray,
+                    style = MaterialTheme.typography.labelLarge,
+                )
+            }
+            state.description?.let { desc ->
+                Text(
+                    text = desc,
+                    maxLines = 2,
+                    color = Color.White,
+                    style = MaterialTheme.typography.bodyLarge,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun Loading(
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+private fun SearchComponent.NoProfile(
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Text(
                 text = "Нет предложений",
             )
+            Button(
+                onClick = { accept(OnUpdate) },
+            ) {
+                Text(
+                    text = "Обновить",
+                )
+            }
         }
     }
 }

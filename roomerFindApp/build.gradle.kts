@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jb.compose)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -16,12 +17,19 @@ kotlin {
         homepage = "Link to the Shared Module homepage"
         version = "1.0"
         ios.deploymentTarget = "15.0"
+        podfile = project.file("../ios/Podfile")
         framework {
-            baseName = "roomerFindApp"
+            baseName = "RoomerFind"
             isStatic = true
+            export(libs.decompose)
+            export(libs.essenty.lifecycle)
+            export(libs.essenty.instancekeeper)
+            export(projects.feature.map.api)
+            export(projects.feature.root.api)
+            export(projects.feature.root.internal)
         }
     }
-    
+
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.mvi)
@@ -33,6 +41,13 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.maplibre)
+        }
+        iosMain.dependencies {
+            api(libs.essenty.lifecycle)
+            api(libs.essenty.instancekeeper)
+            api(projects.feature.map.api)
+            api(projects.feature.root.api)
+            api(projects.feature.root.internal)
         }
     }
 }

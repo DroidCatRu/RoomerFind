@@ -15,8 +15,7 @@ suspend fun <R, T> Result<T>.mapSuspendCatching(transform: suspend (T) -> R): Re
     return fold(
         onSuccess = {
             runSuspendCatching { transform(it) }
-        }
-        ,
+        },
         onFailure = {
             Result.failure(it)
         }

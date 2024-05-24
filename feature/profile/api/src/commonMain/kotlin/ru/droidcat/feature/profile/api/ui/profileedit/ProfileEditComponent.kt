@@ -1,11 +1,11 @@
 package ru.droidcat.feature.profile.api.ui.profileedit
 
-import com.arkivanov.decompose.value.Value
+import kotlinx.coroutines.flow.StateFlow
 import ru.droidcat.feature.profile.api.ui.profileedit.model.ProfileEditState
 
 interface ProfileEditComponent {
 
-    val viewState: Value<ProfileEditState>
+    val viewState: StateFlow<ProfileEditState>
 
     fun onNameChange(name: String)
 

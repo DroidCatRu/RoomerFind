@@ -2,12 +2,9 @@ package ru.droidcat.feature.profile.internal.ui.preferenceedit
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import kotlinx.coroutines.launch
-import ru.droidcat.core.mvi.uiDispatcher
-import ru.droidcat.feature.profile.api.model.UserPreference
+import ru.droidcat.core.coroutines.uiDispatcher
 import ru.droidcat.feature.profile.api.ui.preferencesedit.model.PreferenceState
 import ru.droidcat.feature.profile.api.ui.preferencesedit.model.PreferenceState.Loaded
-import ru.droidcat.feature.profile.api.usecase.GetPreferenceUseCase
-import ru.droidcat.feature.profile.api.usecase.SavePreferenceUseCase
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Action
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Action.GetUserPreference
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Intent
@@ -17,28 +14,24 @@ import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Intent.OnMax
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Intent.OnMinAgeChange
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Intent.OnMinValueChange
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Label
-import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Label.PreferenceSaved
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Message
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Message.SetMaxAge
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Message.SetMaxValue
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Message.SetMinAge
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Message.SetMinValue
-import ru.droidcat.feature.profile.internal.ui.preferenceedit.model.Message.SetPreference
 
-internal class DefaultPreferenceEditExecutor(
-    private val getPreferenceAction: GetPreferenceUseCase,
-    private val savePreferenceAction: SavePreferenceUseCase,
-) : CoroutineExecutor<Intent, Action, PreferenceState, Message, Label>(uiDispatcher) {
+internal class DefaultPreferenceEditExecutor :
+    CoroutineExecutor<Intent, Action, PreferenceState, Message, Label>(uiDispatcher) {
 
-    override fun executeAction(action: Action, getState: () -> PreferenceState) {
-        super.executeAction(action, getState)
+    override fun executeAction(action: Action) {
+        super.executeAction(action)
         when (action) {
             is GetUserPreference -> getUserPreference()
         }
     }
 
-    override fun executeIntent(intent: Intent, getState: () -> PreferenceState) {
-        super.executeIntent(intent, getState)
+    override fun executeIntent(intent: Intent) {
+        super.executeIntent(intent)
         when (intent) {
             is OnMinValueChange -> onMinValueChange(
                 value = intent.value,
@@ -57,15 +50,15 @@ internal class DefaultPreferenceEditExecutor(
             )
 
             is OnConfirm -> onConfirm(
-                state = getState()
+                state = state()
             )
         }
     }
 
     private fun getUserPreference() {
         scope.launch {
-            val preference = getPreferenceAction().getOrNull() ?: return@launch
-            dispatch(SetPreference(preference))
+//            val preference = getPreferenceAction().getOrNull() ?: return@launch
+//            dispatch(SetPreference(preference))
         }
     }
 
@@ -98,17 +91,17 @@ internal class DefaultPreferenceEditExecutor(
     ) {
         if (state !is Loaded) return
         scope.launch {
-            val saveResult = savePreferenceAction(
-                UserPreference.Defined(
-                    minValue = state.minValue,
-                    maxValue = state.maxValue,
-                    minAge = state.minAge,
-                    maxAge = state.maxAge,
-                )
-            )
-            if (saveResult.isSuccess) {
-                publish(PreferenceSaved)
-            }
+//            val saveResult = savePreferenceAction(
+//                UserPreference.Defined(
+//                    minValue = state.minValue,
+//                    maxValue = state.maxValue,
+//                    minAge = state.minAge,
+//                    maxAge = state.maxAge,
+//                )
+//            )
+//            if (saveResult.isSuccess) {
+//                publish(PreferenceSaved)
+//            }
         }
     }
 }

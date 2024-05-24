@@ -1,19 +1,19 @@
 package ru.droidcat.feature.root.internal.model
 
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
 
-internal sealed interface RootStackConfig : Parcelable {
+@Serializable
+internal sealed interface RootStackConfig {
 
-    @Parcelize
+    @Serializable
     data object SplashConfig : RootStackConfig
 
-    @Parcelize
+    @Serializable
     data object AuthConfig : RootStackConfig
 
-    @Parcelize
+    @Serializable
     data object ProfileConfig : RootStackConfig
 
-    @Parcelize
+    @Serializable
     data object FindersConfig : RootStackConfig
 }

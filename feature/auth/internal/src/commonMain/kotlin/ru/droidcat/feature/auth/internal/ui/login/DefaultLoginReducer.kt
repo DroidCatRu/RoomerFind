@@ -8,15 +8,13 @@ import ru.droidcat.feature.auth.internal.ui.login.model.Message.SetPassword
 
 internal class DefaultLoginReducer : Reducer<LoginState, Message> {
 
-    override fun LoginState.reduce(msg: Message): LoginState {
-        return when (msg) {
-            is SetLogin -> this.copy(
-                login = msg.login,
-            )
+    override fun LoginState.reduce(msg: Message): LoginState = when (msg) {
+        is SetLogin -> this.copy(
+            email = msg.value,
+        )
 
-            is SetPassword -> this.copy(
-                password = msg.password,
-            )
-        }
+        is SetPassword -> this.copy(
+            password = msg.value,
+        )
     }
 }

@@ -2,64 +2,38 @@ package ru.droidcat.feature.auth.internal.ui.register
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
 import kotlinx.coroutines.launch
-import ru.droidcat.core.mvi.uiDispatcher
+import ru.droidcat.core.coroutines.uiDispatcher
+import ru.droidcat.feature.auth.api.ui.register.model.RegisterIntent
+import ru.droidcat.feature.auth.api.ui.register.model.RegisterIntent.OnConfirm
+import ru.droidcat.feature.auth.api.ui.register.model.RegisterIntent.OnEmailChange
+import ru.droidcat.feature.auth.api.ui.register.model.RegisterIntent.OnLogin
+import ru.droidcat.feature.auth.api.ui.register.model.RegisterIntent.OnPasswordChange
 import ru.droidcat.feature.auth.api.ui.register.model.RegisterState
-import ru.droidcat.feature.auth.api.usecase.RegisterUseCase
-import ru.droidcat.feature.auth.internal.ui.register.model.Action
-import ru.droidcat.feature.auth.internal.ui.register.model.Intent
-import ru.droidcat.feature.auth.internal.ui.register.model.Intent.OnConfirm
-import ru.droidcat.feature.auth.internal.ui.register.model.Intent.OnLoginChange
-import ru.droidcat.feature.auth.internal.ui.register.model.Intent.OnPasswordChange
+import ru.droidcat.feature.auth.api.usecase.RegisterByEmailUseCase
 import ru.droidcat.feature.auth.internal.ui.register.model.Label
 import ru.droidcat.feature.auth.internal.ui.register.model.Message
 import ru.droidcat.feature.auth.internal.ui.register.model.Message.SetLogin
 import ru.droidcat.feature.auth.internal.ui.register.model.Message.SetPassword
 
-private const val TAG = "DefaultRegisterExecutor"
-
 internal class DefaultRegisterExecutor(
-    private val registerAction: RegisterUseCase,
-) : CoroutineExecutor<Intent, Action, RegisterState, Message, Label>(uiDispatcher) {
+    private val registerUseCase: RegisterByEmailUseCase,
+) : CoroutineExecutor<RegisterIntent, Nothing, RegisterState, Message, Label>(uiDispatcher) {
 
-    override fun executeIntent(intent: Intent, getState: () -> RegisterState) {
-        super.executeIntent(intent, getState)
+    override fun executeIntent(intent: RegisterIntent) {
+        super.executeIntent(intent)
         when (intent) {
-            is OnLoginChange -> onLoginChange(
-                login = intent.login,
-            )
+            is OnEmailChange -> dispatch(SetLogin(intent.value))
 
-            is OnPasswordChange -> onPasswordChange(
-                password = intent.password,
-            )
+            is OnPasswordChange -> dispatch(SetPassword(intent.value))
 
-            is OnConfirm -> onConfirm(
-                login = getState().login,
-                password = getState().password,
-            )
-        }
-    }
+            is OnConfirm -> scope.launch {
+                registerUseCase(
+                    email = state().email,
+                    password = state().password,
+                )
+            }
 
-    private fun onLoginChange(
-        login: String,
-    ) {
-        dispatch(SetLogin(login))
-    }
-
-    private fun onPasswordChange(
-        password: String,
-    ) {
-        dispatch(SetPassword(password))
-    }
-
-    private fun onConfirm(
-        login: String,
-        password: String,
-    ) {
-        scope.launch {
-            registerAction(
-                login = login,
-                password = password,
-            )
+            is OnLogin -> publish(Label.LoginRequest)
         }
     }
 }

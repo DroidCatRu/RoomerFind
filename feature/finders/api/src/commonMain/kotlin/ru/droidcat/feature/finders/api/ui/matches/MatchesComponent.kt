@@ -1,13 +1,11 @@
 package ru.droidcat.feature.finders.api.ui.matches
 
-import com.arkivanov.decompose.value.Value
+import kotlinx.coroutines.flow.StateFlow
+import ru.droidcat.core.mvi.IntentAcceptor
+import ru.droidcat.feature.finders.api.ui.matches.model.MatchesIntent
 import ru.droidcat.feature.finders.api.ui.matches.model.MatchesState
 
-interface MatchesComponent {
+interface MatchesComponent : IntentAcceptor<MatchesIntent> {
 
-    val viewState: Value<MatchesState>
-
-    fun onProfileRequest()
-
-    fun onSelect()
+    val viewState: StateFlow<MatchesState>
 }

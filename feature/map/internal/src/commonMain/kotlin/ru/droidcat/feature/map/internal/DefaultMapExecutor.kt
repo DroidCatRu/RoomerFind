@@ -1,7 +1,7 @@
 package ru.droidcat.feature.map.internal
 
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutor
-import ru.droidcat.core.mvi.uiDispatcher
+import ru.droidcat.core.coroutines.uiDispatcher
 import ru.droidcat.feature.map.api.model.MapState
 import ru.droidcat.feature.map.internal.model.Action
 import ru.droidcat.feature.map.internal.model.Intent
@@ -10,10 +10,11 @@ import ru.droidcat.feature.map.internal.model.Label
 import ru.droidcat.feature.map.internal.model.Message
 import ru.droidcat.feature.map.internal.model.Message.SetCameraPosition
 
-internal class DefaultMapExecutor : CoroutineExecutor<Intent, Action, MapState, Message, Label>(uiDispatcher) {
+internal class DefaultMapExecutor :
+    CoroutineExecutor<Intent, Action, MapState, Message, Label>(uiDispatcher) {
 
-    override fun executeIntent(intent: Intent, getState: () -> MapState) {
-        super.executeIntent(intent, getState)
+    override fun executeIntent(intent: Intent) {
+        super.executeIntent(intent)
         when (intent) {
             is OnLocationChange -> onLocationChange(
                 lat = intent.lat,

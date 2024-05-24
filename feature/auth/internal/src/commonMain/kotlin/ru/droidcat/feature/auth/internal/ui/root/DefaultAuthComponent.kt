@@ -8,8 +8,8 @@ import ru.droidcat.core.mvi.BaseComponent
 import ru.droidcat.feature.auth.api.ui.root.AuthComponent
 import ru.droidcat.feature.auth.api.ui.root.model.AuthChild.LoginChild
 import ru.droidcat.feature.auth.api.ui.root.model.AuthChild.RegisterChild
-import ru.droidcat.feature.auth.internal.ui.login.createLoginComponent
-import ru.droidcat.feature.auth.internal.ui.register.createRegisterComponent
+import ru.droidcat.feature.auth.internal.ui.login.DefaultLoginComponent
+import ru.droidcat.feature.auth.internal.ui.register.DefaultRegisterComponent
 import ru.droidcat.feature.auth.internal.ui.root.model.AuthStackConfig
 import ru.droidcat.feature.auth.internal.ui.root.model.AuthStackConfig.LoginConfig
 import ru.droidcat.feature.auth.internal.ui.root.model.AuthStackConfig.RegisterConfig
@@ -24,34 +24,27 @@ internal class DefaultAuthComponent(
 
     override val childStack = childStack(
         source = navigation,
+        serializer = AuthStackConfig.serializer(),
         initialConfiguration = LoginConfig,
         handleBackButton = true,
         childFactory = { config, context ->
             when (config) {
                 is LoginConfig -> LoginChild(
-                    component = createLoginComponent(
+                    component = DefaultLoginComponent(
                         componentContext = context,
-                        onRegister = ::navigateRegister,
+                        onRegister = { navigation.replaceAll(RegisterConfig) },
                     ),
                 )
 
                 is RegisterConfig -> RegisterChild(
-                    component = createRegisterComponent(
+                    component = DefaultRegisterComponent(
                         componentContext = context,
-                        onLogin = ::navigateLogin,
+                        onLogin = { navigation.replaceAll(LoginConfig) },
                     ),
                 )
             }
         },
     )
-
-    private fun navigateLogin() {
-        navigation.replaceAll(LoginConfig)
-    }
-
-    private fun navigateRegister() {
-        navigation.replaceAll(RegisterConfig)
-    }
 }
 
 fun createAuthComponent(

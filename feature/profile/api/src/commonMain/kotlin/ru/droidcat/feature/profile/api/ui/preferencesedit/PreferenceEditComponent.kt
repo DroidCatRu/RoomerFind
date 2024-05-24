@@ -1,11 +1,11 @@
 package ru.droidcat.feature.profile.api.ui.preferencesedit
 
-import com.arkivanov.decompose.value.Value
+import kotlinx.coroutines.flow.StateFlow
 import ru.droidcat.feature.profile.api.ui.preferencesedit.model.PreferenceState
 
 interface PreferenceEditComponent {
 
-    val viewState: Value<PreferenceState>
+    val viewState: StateFlow<PreferenceState>
 
     fun onMinValueChange(minValue: String)
 

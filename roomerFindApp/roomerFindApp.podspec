@@ -6,15 +6,15 @@ Pod::Spec.new do |spec|
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = 'Some description for the Shared Module'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/roomerFindApp.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/RoomerFind.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '15.0'
                 
                 
-    if !Dir.exist?('build/cocoapods/framework/roomerFindApp.framework') || Dir.empty?('build/cocoapods/framework/roomerFindApp.framework')
+    if !Dir.exist?('build/cocoapods/framework/RoomerFind.framework') || Dir.empty?('build/cocoapods/framework/RoomerFind.framework')
         raise "
 
-        Kotlin framework 'roomerFindApp' doesn't exist yet, so a proper Xcode project can't be generated.
+        Kotlin framework 'RoomerFind' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
 
             ./gradlew :roomerFindApp:generateDummyFramework
@@ -24,7 +24,7 @@ Pod::Spec.new do |spec|
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':roomerFindApp',
-        'PRODUCT_MODULE_NAME' => 'roomerFindApp',
+        'PRODUCT_MODULE_NAME' => 'RoomerFind',
     }
                 
     spec.script_phases = [
@@ -46,5 +46,5 @@ Pod::Spec.new do |spec|
             SCRIPT
         }
     ]
-    spec.resources = ['build\compose\ios\roomerFindApp\compose-resources']
+                
 end

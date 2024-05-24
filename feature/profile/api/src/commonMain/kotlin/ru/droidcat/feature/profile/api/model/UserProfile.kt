@@ -11,3 +11,7 @@ sealed interface UserProfile {
 
     data object Empty : UserProfile
 }
+
+data object NoProfile : Throwable()
+
+data object TimeOutException : Throwable()

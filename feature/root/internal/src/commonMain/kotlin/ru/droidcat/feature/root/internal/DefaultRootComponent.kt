@@ -37,6 +37,7 @@ internal class DefaultRootComponent(
 
     override val childStack = childStack(
         source = navigation,
+        serializer = RootStackConfig.serializer(),
         initialConfiguration = SplashConfig,
         handleBackButton = true,
         childFactory = { config, context ->
@@ -52,14 +53,14 @@ internal class DefaultRootComponent(
                 is ProfileConfig -> ProfileChild(
                     component = createProfileComponent(
                         componentContext = context,
-                        onBack = ::navigateToMain
+                        onBack = { navigation.replaceAll(FindersConfig) },
                     ),
                 )
 
                 is FindersConfig -> FindersChild(
                     component = createFindersComponent(
                         componentContext = context,
-                        onProfile = ::navigateToProfile,
+                        onProfile = { navigation.replaceAll(ProfileConfig) },
                     )
                 )
             }
@@ -77,22 +78,10 @@ internal class DefaultRootComponent(
     override fun onLabelReceive(label: Label) {
         super.onLabelReceive(label)
         when (label) {
-            is UserLoggedIn -> navigateToMain()
+            is UserLoggedIn -> navigation.replaceAll(FindersConfig)
 
-            is UserLoggedOut -> navigateToAuth()
+            is UserLoggedOut -> navigation.replaceAll(AuthConfig)
         }
-    }
-
-    private fun navigateToMain() {
-        navigation.replaceAll(FindersConfig)
-    }
-
-    private fun navigateToProfile() {
-        navigation.replaceAll(ProfileConfig)
-    }
-
-    private fun navigateToAuth() {
-        navigation.replaceAll(AuthConfig)
     }
 }
 

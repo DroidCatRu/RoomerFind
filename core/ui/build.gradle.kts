@@ -23,7 +23,9 @@ kotlin {
             api(compose.runtime)
             api(compose.foundation)
             api(compose.material3)
+            api(libs.decompose)
             api(libs.decompose.compose)
+            api(libs.imageLoader.core)
         }
         androidMain.dependencies {
             api(compose.ui)

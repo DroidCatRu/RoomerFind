@@ -2,8 +2,6 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.kotlinParcelize)
-    alias(libs.plugins.darwinParcelize)
 }
 
 kotlin {
@@ -22,6 +20,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.core.preferences)
+            implementation(projects.core.model)
+
             implementation(projects.feature.profile.api)
             implementation(projects.feature.map.internal)
             implementation(libs.ktor.client.core)

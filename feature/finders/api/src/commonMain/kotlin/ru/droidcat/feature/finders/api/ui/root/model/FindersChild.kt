@@ -1,13 +1,13 @@
 package ru.droidcat.feature.finders.api.ui.root.model
 
-import ru.droidcat.feature.finders.api.ui.matches.MatchesComponent
-import ru.droidcat.feature.finders.api.ui.search.SearchComponent
+import ru.droidcat.feature.finders.api.ui.profile.FinderProfileComponent
+import ru.droidcat.feature.finders.api.ui.tabs.FindersTabsComponent
 
 sealed interface FindersChild {
 
-    data class MatchesChild(val component: MatchesComponent) : FindersChild
+    data class FindersTabsChild(val component: FindersTabsComponent) : FindersChild
 
-    data object ProfileChild : FindersChild
-
-    data class SearchChild(val component: SearchComponent) : FindersChild
+    data class ProfileChild(val component: FinderProfileComponent) : FindersChild
 }
+
+sealed interface ChildWithNavigationBar

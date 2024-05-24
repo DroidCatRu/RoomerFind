@@ -16,11 +16,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import ru.droidcat.feature.profile.api.ui.profileedit.ProfileEditComponent
 import ru.droidcat.feature.profile.api.ui.profileedit.model.ProfileEditState.Loaded
 
@@ -30,7 +30,7 @@ fun ProfileEditContent(
     component: ProfileEditComponent,
     modifier: Modifier = Modifier,
 ) {
-    val viewState by component.viewState.subscribeAsState()
+    val viewState by component.viewState.collectAsState()
 
     (viewState as? Loaded)?.let { state ->
         Scaffold(

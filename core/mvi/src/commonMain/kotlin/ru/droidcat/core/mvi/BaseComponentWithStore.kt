@@ -1,14 +1,16 @@
 package ru.droidcat.core.mvi
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.lifecycle.doOnDestroy
 import com.arkivanov.mvikotlin.core.binder.BinderLifecycleMode.CREATE_DESTROY
 import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.extensions.coroutines.bind
 import com.arkivanov.mvikotlin.extensions.coroutines.labels
+import com.arkivanov.mvikotlin.extensions.coroutines.stateFlow
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.scope.Scope
 
 abstract class BaseComponentWithStore<Intent : Any, State : Any, Label : Any>(
@@ -16,13 +18,15 @@ abstract class BaseComponentWithStore<Intent : Any, State : Any, Label : Any>(
     private val storeFactory: Scope.() -> Store<Intent, State, Label>,
 ) : BaseComponent(
     componentContext = componentContext,
-) {
+),
+    IntentAcceptor<Intent> {
 
     private val store by lazy {
         instanceKeeper.getStore { scope.storeFactory() }
     }
 
-    val viewState: Value<State> = store.statesAsValue()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val viewState: StateFlow<State> = store.stateFlow
 
     init {
         bind(componentContext.lifecycle, CREATE_DESTROY, Dispatchers.Unconfined) {
@@ -31,7 +35,7 @@ abstract class BaseComponentWithStore<Intent : Any, State : Any, Label : Any>(
         componentContext.lifecycle.doOnDestroy(store::dispose)
     }
 
-    protected fun accept(intent: Intent) {
+    override fun accept(intent: Intent) {
         store.accept(intent)
     }
 

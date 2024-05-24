@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 kotlin {
@@ -20,6 +21,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.core.mvi)
+            api(projects.core.model)
             api(projects.feature.auth.api)
         }
     }

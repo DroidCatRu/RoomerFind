@@ -12,13 +12,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import ru.droidcat.feature.auth.api.ui.register.RegisterComponent
+import ru.droidcat.feature.auth.api.ui.register.model.RegisterIntent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,7 +27,7 @@ fun RegisterContent(
     component: RegisterComponent,
     modifier: Modifier = Modifier,
 ) {
-    val viewState by component.viewState.subscribeAsState()
+    val viewState by component.viewState.collectAsState()
 
     Scaffold(
         modifier = modifier,
@@ -53,8 +54,8 @@ fun RegisterContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 OutlinedTextField(
-                    value = viewState.login,
-                    onValueChange = component::onLoginChange,
+                    value = viewState.email,
+                    onValueChange = { component.accept(RegisterIntent.OnEmailChange(it)) },
                     label = {
                         Text(
                             text = "Логин",
@@ -63,7 +64,7 @@ fun RegisterContent(
                 )
                 OutlinedTextField(
                     value = viewState.password,
-                    onValueChange = component::onPasswordChange,
+                    onValueChange = { component.accept(RegisterIntent.OnPasswordChange(it)) },
                     label = {
                         Text(
                             text = "Пароль",
@@ -72,14 +73,14 @@ fun RegisterContent(
                     visualTransformation = PasswordVisualTransformation(),
                 )
                 Button(
-                    onClick = component::onConfirm,
+                    onClick = { component.accept(RegisterIntent.OnConfirm) },
                 ) {
                     Text(
                         text = "Зарегистрироваться",
                     )
                 }
                 Button(
-                    onClick = component::onLoginRequest,
+                    onClick = { component.accept(RegisterIntent.OnLogin) },
                 ) {
                     Text(
                         text = "Вход в аккаунт",

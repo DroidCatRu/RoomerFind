@@ -1,5 +1,5 @@
 target 'ios' do
   use_frameworks!
-  platform :ios, '14.1'
-  pod 'sharedmobile', :path => '../sharedmobile'
+  platform :ios, '15.0'
+  pod 'roomerFindApp', :path => '../roomerFindApp'
 end

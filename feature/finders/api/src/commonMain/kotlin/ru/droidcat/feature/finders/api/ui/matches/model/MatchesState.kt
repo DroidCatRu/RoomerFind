@@ -3,20 +3,16 @@ package ru.droidcat.feature.finders.api.ui.matches.model
 sealed interface MatchesState {
 
     data class Loaded(
-        val matches: List<Match> = listOf(
-            Match(
-                name = "Test",
-                age = "23",
-                description = "no description",
-            ),
-        ),
+        val matches: List<Match>,
     ) : MatchesState
 
     data object Loading : MatchesState
 }
 
 data class Match(
-    val name: String = "",
-    val description: String = "",
-    val age: String = "",
+    val id: Long,
+    val title: String,
+    val priceRange: String?,
+    val avatar: String?,
+    val description: String?,
 )

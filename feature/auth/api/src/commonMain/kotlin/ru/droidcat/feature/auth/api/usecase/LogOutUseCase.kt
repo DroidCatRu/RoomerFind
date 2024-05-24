@@ -1,13 +1,6 @@
 package ru.droidcat.feature.auth.api.usecase
 
-import ru.droidcat.core.mvi.runSuspendCatching
-import ru.droidcat.feature.auth.api.data.AuthDB
+interface LogOutUseCase {
 
-class LogOutUseCase(
-    private val db: AuthDB,
-) {
-
-    suspend operator fun invoke() = runSuspendCatching {
-        db.logOut()
-    }
+    suspend operator fun invoke()
 }

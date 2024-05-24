@@ -1,16 +1,13 @@
 package ru.droidcat.feature.finders.internal.ui.root.model
 
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
+import kotlinx.serialization.Serializable
 
-internal sealed interface FindersStackConfig : Parcelable {
+@Serializable
+internal sealed interface FindersStackConfig {
 
-    @Parcelize
-    data object MatchesConfig : FindersStackConfig
+    @Serializable
+    data object TabsConfig : FindersStackConfig
 
-    @Parcelize
-    data object SearchConfig : FindersStackConfig
-
-    @Parcelize
+    @Serializable
     data object ProfileConfig : FindersStackConfig
 }

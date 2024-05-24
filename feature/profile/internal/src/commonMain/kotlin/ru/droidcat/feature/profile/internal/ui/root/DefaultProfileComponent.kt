@@ -1,89 +1,86 @@
 package ru.droidcat.feature.profile.internal.ui.root
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.popWhile
-import com.arkivanov.decompose.router.stack.push
+import com.arkivanov.decompose.childContext
+import com.arkivanov.decompose.router.slot.ChildSlot
+import com.arkivanov.decompose.router.slot.SlotNavigation
+import com.arkivanov.decompose.router.slot.activate
+import com.arkivanov.decompose.router.slot.childSlot
+import com.arkivanov.decompose.router.slot.dismiss
+import com.arkivanov.decompose.value.Value
 import ru.droidcat.core.mvi.BaseComponent
 import ru.droidcat.feature.profile.api.ui.root.ProfileComponent
-import ru.droidcat.feature.profile.api.ui.root.model.ProfileChild.GeoEditChild
-import ru.droidcat.feature.profile.api.ui.root.model.ProfileChild.PreferenceEditChild
-import ru.droidcat.feature.profile.api.ui.root.model.ProfileChild.ProfileEditChild
-import ru.droidcat.feature.profile.api.ui.root.model.ProfileChild.ProfileShowCaseChild
+import ru.droidcat.feature.profile.api.ui.root.model.ProfileRootSlot
+import ru.droidcat.feature.profile.api.ui.root.model.ProfileRootSlot.GeoEditSlot
+import ru.droidcat.feature.profile.api.ui.root.model.ProfileRootSlot.PreferenceEditSlot
+import ru.droidcat.feature.profile.api.ui.root.model.ProfileRootSlot.ProfileEditSlot
+import ru.droidcat.feature.profile.api.ui.showcase.ProfileShowCaseComponent
 import ru.droidcat.feature.profile.internal.ui.geoedit.createGeoEditComponent
 import ru.droidcat.feature.profile.internal.ui.preferenceedit.createPreferenceEditComponent
 import ru.droidcat.feature.profile.internal.ui.profileedit.createProfileEditComponent
-import ru.droidcat.feature.profile.internal.ui.root.model.ProfileStackConfig
-import ru.droidcat.feature.profile.internal.ui.root.model.ProfileStackConfig.EditGeoConfig
-import ru.droidcat.feature.profile.internal.ui.root.model.ProfileStackConfig.EditPreferenceConfig
-import ru.droidcat.feature.profile.internal.ui.root.model.ProfileStackConfig.EditProfileConfig
-import ru.droidcat.feature.profile.internal.ui.root.model.ProfileStackConfig.ShowCaseConfig
+import ru.droidcat.feature.profile.internal.ui.root.model.ProfileSlotConfig
+import ru.droidcat.feature.profile.internal.ui.root.model.ProfileSlotConfig.EditGeoConfig
+import ru.droidcat.feature.profile.internal.ui.root.model.ProfileSlotConfig.EditPreferenceConfig
+import ru.droidcat.feature.profile.internal.ui.root.model.ProfileSlotConfig.EditProfileConfig
 import ru.droidcat.feature.profile.internal.ui.showcase.createShowCaseComponent
 
 internal class DefaultProfileComponent(
     componentContext: ComponentContext,
-    private val onBack: () -> Unit,
+    onBack: () -> Unit,
 ) : ProfileComponent, BaseComponent(
     componentContext = componentContext,
 ) {
 
-    private val navigation = StackNavigation<ProfileStackConfig>()
+    private val navigation = SlotNavigation<ProfileSlotConfig>()
 
-    override val childStack = childStack(
+    override val childSlot: Value<ChildSlot<*, ProfileRootSlot>> = childSlot(
         source = navigation,
-        initialConfiguration = ShowCaseConfig,
-        handleBackButton = true,
-        childFactory = { config, context ->
-            when (config) {
-                is ShowCaseConfig -> ProfileShowCaseChild(
-                    component = createShowCaseComponent(
-                        componentContext = context,
-                        onEditProfile = ::navigateEditProfile,
-                        onEditPreference = ::navigateEditPreference,
-                        onGeoEdit = ::navigateEditGeo,
-                        onBack = onBack,
-                    )
+        serializer = ProfileSlotConfig.serializer(),
+    ) { config, context ->
+        when (config) {
+            is EditProfileConfig -> ProfileEditSlot(
+                component = createProfileEditComponent(
+                    componentContext = context,
+                    onBack = ::dismiss,
                 )
+            )
 
-                is EditProfileConfig -> ProfileEditChild(
-                    component = createProfileEditComponent(
-                        componentContext = context,
-                        onBack = ::popToShowCase,
-                    )
+            EditGeoConfig -> GeoEditSlot(
+                component = createGeoEditComponent(
+                    componentContext = context,
+                    onBack = ::dismiss,
                 )
-
-                is EditPreferenceConfig -> PreferenceEditChild(
-                    component = createPreferenceEditComponent(
-                        componentContext = context,
-                        onBack = ::popToShowCase,
-                    )
+            )
+            EditPreferenceConfig -> PreferenceEditSlot(
+                component = createPreferenceEditComponent(
+                    componentContext = context,
+                    onBack = ::dismiss,
                 )
-
-                is EditGeoConfig -> GeoEditChild(
-                    component = createGeoEditComponent(
-                        componentContext = context,
-                        onBack = ::popToShowCase,
-                    )
-                )
-            }
+            )
         }
+    }
+    override val showCaseComponent: ProfileShowCaseComponent = createShowCaseComponent(
+        componentContext = childContext(PROFILE_SHOWCASE_KEY),
+        onEditProfile = ::navigateEditProfile,
+        onEditPreference = ::navigateEditPreference,
+        onEditGeo = ::navigateEditGeo,
+        onBack = onBack,
     )
 
-    private fun popToShowCase() {
-        navigation.popWhile { it != ShowCaseConfig }
+    private fun dismiss() {
+        navigation.dismiss()
     }
 
     private fun navigateEditProfile() {
-        navigation.push(EditProfileConfig)
+        navigation.activate(EditProfileConfig)
     }
 
     private fun navigateEditPreference() {
-        navigation.push(EditPreferenceConfig)
+        navigation.activate(EditPreferenceConfig)
     }
 
     private fun navigateEditGeo() {
-        navigation.push(EditGeoConfig)
+        navigation.activate(EditGeoConfig)
     }
 }
 
@@ -94,3 +91,5 @@ fun createProfileComponent(
     componentContext = componentContext,
     onBack = onBack,
 )
+
+private val PROFILE_SHOWCASE_KEY = "ProfileShowCaseComponent"
