@@ -42,7 +42,7 @@ jobs:
   
       - name: Deploy COI VM
         id: deploy-coi
-        uses: yc-actions/yc-coi-deploy@v1.0.1
+        uses: yc-actions/yc-coi-deploy@v2
         env:
           ROOMER_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           BACKEND_IMAGE: ${{ env.BACKEND_IMAGE }}
