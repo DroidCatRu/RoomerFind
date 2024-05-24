@@ -1,3 +1,5 @@
+import java.util.Date
+
 plugins {
     application
     alias(libs.plugins.kotlinJvm)
@@ -10,6 +12,18 @@ version = "0.0.1"
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
+}
+
+ktor {
+    fatJar {
+        archiveFileName.set("backend-${Date().time}.jar")
+    }
+}
+
+task("cleanPreviousBuild") {
+    this.dependsOn("buildFatJar")
+    delete(fileTree("build/libs"))
+    println("cleaned")
 }
 
 dependencies {

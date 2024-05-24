@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_DB: "roomerfindDB"
       POSTGRES_USER: "roomerfind"
-      POSTGRES_PASSWORD: "EyJgoLaw9z5RgX9"
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
       - roomer-data:/var/lib/postgresql/data
@@ -18,7 +18,7 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
-    restart: unless-stopped
+    restart: always
     deploy:
       resources:
         limits:
@@ -27,49 +27,25 @@ services:
     networks:
       - postgres
 
-  pgadmin:
-    container_name: roomerfind-db-admin
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "admin@roomerfind.ru"
-      PGADMIN_DEFAULT_PASSWORD: "roomerfind-admin"
-      PGADMIN_CONFIG_SERVER_MODE: "False"
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    ports:
-      - "5050:80"
-    restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 1G
-    networks:
-      - postgres
-    depends_on:
-      - postgresdb
-
   backend:
     container_name: roomerfind-app
-    build: ./backend
-    restart: on-failure
+    image: ${BACKEND_IMAGE}
+    restart: always
     ports:
       - "8083:8082"
     environment:
       DB_URL: "jdbc:postgresql://roomerfind-db:5432/roomerfindDB"
       DB_USER: "roomerfind"
-      DB_PASSWORD: "EyJgoLaw9z5RgX9"
+      DB_PASSWORD: ${DB_PASSWORD}
     volumes:
       - avatars:/avatars
     networks:
       - postgres
     depends_on:
       - postgresdb
-      - pgadmin
 
 volumes:
   roomer-data:
-  pgadmin-data:
   avatars:
 
 networks:
