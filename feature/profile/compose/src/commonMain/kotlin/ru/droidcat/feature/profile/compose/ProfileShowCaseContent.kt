@@ -21,8 +21,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -36,16 +36,23 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.preat.peekaboo.image.picker.SelectionMode
+import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
 import ru.droidcat.core.ui.AsyncImage
 import ru.droidcat.feature.profile.api.ui.showcase.ProfileShowCaseComponent
+import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseIntent
 import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseIntent.OnBack
 import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseIntent.OnEditGeo
 import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseIntent.OnEditPreferences
@@ -117,6 +124,18 @@ private fun BoxScope.ProfileView(
     component: ProfileShowCaseComponent,
     paddings: PaddingValues,
 ) {
+    val scope = rememberCoroutineScope()
+
+    val singleImagePicker = rememberImagePickerLauncher(
+        selectionMode = SelectionMode.Single,
+        scope = scope,
+        onResult = { byteArrays ->
+            byteArrays.firstOrNull()?.let {
+                component.accept(ProfileShowCaseIntent.OnAvatarChange(it))
+            }
+        }
+    )
+
     Box(
         modifier = Modifier
             .align(Alignment.TopCenter)
@@ -148,14 +167,15 @@ private fun BoxScope.ProfileView(
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(
-            bottom = paddings.calculateBottomPadding(),
+            bottom = paddings.calculateBottomPadding() + 128.dp,
         ),
     ) {
         item {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(0.9f),
+                    .aspectRatio(0.9f)
+                    .clickable { singleImagePicker.launch() },
             )
         }
 
@@ -163,20 +183,17 @@ private fun BoxScope.ProfileView(
             TitledField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(
-                        color = MaterialTheme.colorScheme.background,
-                        shape = RoundedCornerShape(
-                            topStart = 16.dp,
-                            topEnd = 16.dp
-                        ),
-                    )
                     .padding(16.dp),
                 title = "Основная информация",
+                shape = RoundedCornerShape(
+                    topStart = 16.dp,
+                    topEnd = 16.dp
+                ),
                 onClick = { component.accept(OnEditProfile) },
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = "Имя: ${state.name}",
+                    text = state.name,
                     style = MaterialTheme.typography.displaySmall,
                 )
                 Spacer(Modifier.height(8.dp))
@@ -245,12 +262,16 @@ private fun TitledField(
         ),
     spacedBy: Dp = 0.dp,
     titleAlpha: Float = 0.4F,
+    backgroundColor: Color = MaterialTheme.colorScheme.background,
+    shape: Shape = RectangleShape,
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Box(
         modifier = Modifier
-            .clickable(onClick != null) { onClick?.invoke() },
+            .clip(shape)
+            .clickable(onClick != null) { onClick?.invoke() }
+            .background(backgroundColor),
         contentAlignment = Alignment.Center,
     ) {
         Row(
@@ -277,7 +298,7 @@ private fun TitledField(
             onClick?.let {
                 Icon(
                     modifier = Modifier.graphicsLayer { alpha = titleAlpha },
-                    imageVector = Icons.Rounded.KeyboardArrowRight,
+                    imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurface,
                 )

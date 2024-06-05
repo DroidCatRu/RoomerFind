@@ -1,21 +1,11 @@
 package ru.droidcat.feature.profile.api.ui.preferencesedit
 
 import kotlinx.coroutines.flow.StateFlow
+import ru.droidcat.core.mvi.IntentAcceptor
+import ru.droidcat.feature.profile.api.ui.preferencesedit.model.PreferenceEditIntent
 import ru.droidcat.feature.profile.api.ui.preferencesedit.model.PreferenceState
 
-interface PreferenceEditComponent {
+interface PreferenceEditComponent : IntentAcceptor<PreferenceEditIntent> {
 
     val viewState: StateFlow<PreferenceState>
-
-    fun onMinValueChange(minValue: String)
-
-    fun onMaxValueChange(maxValue: String)
-
-    fun onMinAgeChange(minAge: String)
-
-    fun onMaxAgeChange(maxAge: String)
-
-    fun onConfirm()
-
-    fun onDismiss()
 }

@@ -6,6 +6,7 @@ import org.koin.dsl.module
 import ru.droidcat.feature.profile.api.data.LocalProfileApi
 import ru.droidcat.feature.profile.api.usecase.GetProfileUseCase
 import ru.droidcat.feature.profile.api.usecase.SaveProfileUseCase
+import ru.droidcat.feature.profile.api.usecase.UploadAvatarUseCase
 import ru.droidcat.feature.profile.internal.data.LocalProfileImpl
 import ru.droidcat.feature.profile.internal.data.RemoteProfileRepository
 import ru.droidcat.feature.profile.internal.ui.geoedit.di.geoEditModule
@@ -14,6 +15,7 @@ import ru.droidcat.feature.profile.internal.ui.profileedit.di.profileEditModule
 import ru.droidcat.feature.profile.internal.ui.showcase.di.showCaseModule
 import ru.droidcat.feature.profile.internal.usecase.GetProfileUseCaseImpl
 import ru.droidcat.feature.profile.internal.usecase.SaveProfileUseCaseImpl
+import ru.droidcat.feature.profile.internal.usecase.UploadAvatarUseCaseImpl
 
 val profileModule = module {
     includes(
@@ -27,4 +29,5 @@ val profileModule = module {
     singleOf(::RemoteProfileRepository)
     singleOf(::GetProfileUseCaseImpl).bind<GetProfileUseCase>()
     singleOf(::SaveProfileUseCaseImpl).bind<SaveProfileUseCase>()
+    singleOf(::UploadAvatarUseCaseImpl).bind<UploadAvatarUseCase>()
 }

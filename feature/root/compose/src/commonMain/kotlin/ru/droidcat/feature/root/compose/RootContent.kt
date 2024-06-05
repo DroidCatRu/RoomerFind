@@ -5,12 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import ru.droidcat.feature.auth.compose.root.AuthContent
-import ru.droidcat.feature.finders.compose.FindersContent
-import ru.droidcat.feature.profile.compose.ProfileContent
+import ru.droidcat.feature.main.compose.MainContent
 import ru.droidcat.feature.root.api.RootComponent
 import ru.droidcat.feature.root.api.model.RootChild.AuthChild
-import ru.droidcat.feature.root.api.model.RootChild.FindersChild
-import ru.droidcat.feature.root.api.model.RootChild.ProfileChild
+import ru.droidcat.feature.root.api.model.RootChild.MainChild
 import ru.droidcat.feature.root.api.model.RootChild.SplashChild
 
 @Composable
@@ -32,12 +30,7 @@ fun RootContent(
                 component = child.component,
             )
 
-            is ProfileChild -> ProfileContent(
-                modifier = Modifier.fillMaxSize(),
-                component = child.component,
-            )
-
-            is FindersChild -> FindersContent(
+            is MainChild -> MainContent(
                 modifier = Modifier.fillMaxSize(),
                 component = child.component,
             )

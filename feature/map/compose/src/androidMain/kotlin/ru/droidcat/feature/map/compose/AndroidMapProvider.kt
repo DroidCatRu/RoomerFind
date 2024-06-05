@@ -1,8 +1,11 @@
 package ru.droidcat.feature.map.compose
 
 import android.content.Context
+import android.graphics.PointF
 import com.mapbox.mapboxsdk.Mapbox
 import ru.droidcat.feature.map.api.MapComponent
+import ru.droidcat.feature.map.api.model.LatLng
+import ru.droidcat.feature.map.api.model.MapIntent
 
 class AndroidMapProvider(
     private val context: Context,
@@ -17,22 +20,21 @@ class AndroidMapProvider(
                 map.uiSettings.isAttributionEnabled = false
 
                 map.addOnCameraIdleListener {
+                    val topLatLng = map.projection.fromScreenLocation(
+                        PointF(0f, map.width / 2)
+                    )
                     map.cameraPosition.target?.let {
-                        component.onCameraMove(
-                            lat = it.latitude,
-                            lon = it.longitude,
-                            zoom = map.cameraPosition.zoom,
+                        component.accept(
+                            MapIntent.OnCameraMoveManual(
+                                center = LatLng(
+                                    lat = it.latitude,
+                                    long = it.longitude,
+                                ),
+                                distanceToTop = it.distanceTo(topLatLng) / 1000 * 0.8,
+                                zoom = map.cameraPosition.zoom,
+                            )
                         )
                     }
-                }
-
-                map.addOnMapClickListener {
-                    component.onCameraMove(
-                        lat = it.latitude,
-                        lon = it.longitude,
-                        zoom = map.cameraPosition.zoom,
-                    )
-                    true
                 }
             }
         }

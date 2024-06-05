@@ -7,8 +7,7 @@ import org.koin.core.module.dsl.scopedOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import ru.droidcat.feature.auth.internal.ui.root.di.authModule
-import ru.droidcat.feature.finders.internal.ui.root.di.findersModule
-import ru.droidcat.feature.profile.internal.ui.root.di.profileModule
+import ru.droidcat.feature.main.internal.di.mainModule
 import ru.droidcat.feature.root.internal.DefaultRootComponent
 import ru.droidcat.feature.root.internal.DefaultRootExecutor
 import ru.droidcat.feature.root.internal.DefaultRootReducer
@@ -18,8 +17,7 @@ val rootModule = module {
     includes(
         platformModule,
         authModule,
-        profileModule,
-        findersModule,
+        mainModule,
     )
 
     singleOf<StoreFactory>(::DefaultStoreFactory)

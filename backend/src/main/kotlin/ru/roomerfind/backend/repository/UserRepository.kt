@@ -2,8 +2,10 @@ package ru.roomerfind.backend.repository
 
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.JoinType
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.alias
 import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.function
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
@@ -83,6 +85,7 @@ class UserRepository(
 
             it[lat] = info.preferences.lat
             it[long] = info.preferences.long
+            it[zoom] = info.preferences.zoom
             it[radiusKm] = info.preferences.radius
 
             it[minPrice] = info.preferences.minPrice
@@ -119,12 +122,44 @@ class UserRepository(
                     (a[UserTable.id] eq id)
             }
 
+        val earthRadius = 6371.0
+        val pi = 3.14
+
+        val locationFiltered = a.join(
+            b,
+            JoinType.CROSS,
+            a[UserTable.id],
+            b[UserTable.id],
+        )
+            .select(b[UserTable.id])
+            .where {
+                (a[UserTable.id] neq b[UserTable.id]) and
+                    (
+                        (
+                            (
+                                (
+                                    (a[UserTable.lat] * pi / 180.0).function("sin") *
+                                        (b[UserTable.lat] * pi / 180.0).function("sin")
+                                    ) +
+                                    (a[UserTable.lat] * pi / 180.0).function("cos") *
+                                    (b[UserTable.lat] * pi / 180.0).function("cos") *
+                                    (
+                                        (b[UserTable.long] * pi / 180.0) -
+                                            (a[UserTable.long] * pi / 180.0)
+                                        ).function("cos")
+                                ).function("acos") * earthRadius
+                            ) lessEq (a[UserTable.radiusKm] + b[UserTable.radiusKm])
+                        ) and
+                    (a[UserTable.id] eq id)
+            }
+
         UserTable
             .selectAll()
             .where {
                 (UserTable.id neq id) and
                     (UserTable.id notInSubQuery reactionFiltered) and
-                    (UserTable.id inSubQuery priceAndAgeFiltered)
+                    (UserTable.id inSubQuery priceAndAgeFiltered) and
+                    (UserTable.id inSubQuery locationFiltered)
             }
             .firstOrNull()
             ?.toUserData()
@@ -167,6 +202,7 @@ class UserRepository(
             .select(b[ReactionsTable.initiator])
             .where {
                 (a[ReactionsTable.initiator] eq id) and
+                    (b[ReactionsTable.initiator] eq a[ReactionsTable.receiver]) and
                     (a[ReactionsTable.reaction] eq ReactionsTable.Reaction.LIKE) and
                     (b[ReactionsTable.reaction] eq ReactionsTable.Reaction.LIKE)
             }

@@ -3,7 +3,6 @@ package ru.droidcat.feature.map.compose
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -22,15 +21,12 @@ actual fun MapView(
 ) {
     val viewState by component.viewState.collectAsState()
 
-    val cameraPosition by remember { derivedStateOf { viewState.markerPosition } }
-
     val map = remember { nativeMapProvider.createMap(component) }
 
-    LaunchedEffect(cameraPosition, map) {
+    LaunchedEffect(viewState, map) {
         map.controller.setCameraLocation(
-            lat = cameraPosition.lat,
-            lon = cameraPosition.lon,
-            zoom = cameraPosition.zoom,
+            center = viewState.center,
+            zoom = viewState.zoom,
         )
     }
 

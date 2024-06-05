@@ -1,8 +1,7 @@
 package ru.droidcat.feature.root.api.model
 
 import ru.droidcat.feature.auth.api.ui.root.AuthComponent
-import ru.droidcat.feature.finders.api.ui.root.FindersComponent
-import ru.droidcat.feature.profile.api.ui.root.ProfileComponent
+import ru.droidcat.feature.main.api.MainComponent
 
 sealed interface RootChild {
 
@@ -10,7 +9,5 @@ sealed interface RootChild {
 
     data class AuthChild(val component: AuthComponent) : RootChild
 
-    data class ProfileChild(val component: ProfileComponent) : RootChild
-
-    data class FindersChild(val component: FindersComponent) : RootChild
+    data class MainChild(val component: MainComponent) : RootChild
 }

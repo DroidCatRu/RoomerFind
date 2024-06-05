@@ -41,6 +41,8 @@ data class UserPreferencesDTO(
     val lat: Double = 0.0,
     @SerialName("longitude")
     val long: Double = 0.0,
+    @SerialName("zoom")
+    val zoom: Double = 5.0,
     @SerialName("radius_km")
     val radius: Double = 1.0,
 )

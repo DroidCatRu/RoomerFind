@@ -23,8 +23,7 @@ kotlin {
             implementation(projects.core.ui)
             implementation(projects.feature.root.api)
             implementation(projects.feature.auth.compose)
-            implementation(projects.feature.profile.compose)
-            implementation(projects.feature.finders.compose)
+            implementation(projects.feature.main.compose)
         }
     }
 }

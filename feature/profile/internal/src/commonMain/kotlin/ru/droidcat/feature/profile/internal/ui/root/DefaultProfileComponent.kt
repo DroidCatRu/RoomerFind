@@ -36,25 +36,26 @@ internal class DefaultProfileComponent(
     override val childSlot: Value<ChildSlot<*, ProfileRootSlot>> = childSlot(
         source = navigation,
         serializer = ProfileSlotConfig.serializer(),
+        handleBackButton = true,
     ) { config, context ->
         when (config) {
             is EditProfileConfig -> ProfileEditSlot(
                 component = createProfileEditComponent(
                     componentContext = context,
-                    onBack = ::dismiss,
+                    onDismiss = ::dismiss,
                 )
             )
 
-            EditGeoConfig -> GeoEditSlot(
+            is EditGeoConfig -> GeoEditSlot(
                 component = createGeoEditComponent(
                     componentContext = context,
                     onBack = ::dismiss,
                 )
             )
-            EditPreferenceConfig -> PreferenceEditSlot(
+            is EditPreferenceConfig -> PreferenceEditSlot(
                 component = createPreferenceEditComponent(
                     componentContext = context,
-                    onBack = ::dismiss,
+                    onDismiss = ::dismiss,
                 )
             )
         }
@@ -66,6 +67,10 @@ internal class DefaultProfileComponent(
         onEditGeo = ::navigateEditGeo,
         onBack = onBack,
     )
+
+    override fun onBackRequest() {
+        navigation.dismiss()
+    }
 
     private fun dismiss() {
         navigation.dismiss()
@@ -92,4 +97,4 @@ fun createProfileComponent(
     onBack = onBack,
 )
 
-private val PROFILE_SHOWCASE_KEY = "ProfileShowCaseComponent"
+private const val PROFILE_SHOWCASE_KEY = "ProfileShowCaseComponent"

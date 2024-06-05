@@ -1,7 +1,7 @@
 [versions]
-agp = "8.2.2"
+agp = "8.4.1"
 
-kotlin = "1.9.23"
+kotlin = "2.0.0"
 
 android-minSdk = "24"
 android-compileSdk = "34"
@@ -10,11 +10,11 @@ android-targetSdk = "34"
 jvmTarget = "17"
 javaVersion = "VERSION_17"
 
-compose-plugin = "1.6.1"
-compose-compiler = "1.5.4"
+compose = "1.6.11"
+compose-compiler = "1.5.14"
 androidx-activityCompose = "1.9.0"
 
-koin = "3.5.1"
+koin = "3.5.3"
 
 ktor = "2.3.9"
 ktorm = "3.6.0"
@@ -29,7 +29,7 @@ mapLibre = "10.2.0"
 
 decompose = "3.0.0"
 mviKotlin = "4.0.0"
-essenty = "2.0.0"
+essenty = "2.1.0"
 
 napier = "2.7.1"
 
@@ -41,6 +41,7 @@ kotlinx-serialization = "1.6.3"
 
 imageLoader = "1.7.8"
 cupertino = "0.1.0-alpha04"
+peekaboo = "0.5.2"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -91,6 +92,11 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
+compose-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "compose" }
+compose-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "compose" }
+compose-material3 = { group = "org.jetbrains.compose.material3", name = "material3", version.ref = "compose" }
+compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "compose" }
+
 maplibre = { module = "org.maplibre.gl:android-sdk", version.ref = "mapLibre" }
 
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
@@ -99,6 +105,7 @@ decompose-compose = { module = "com.arkivanov.decompose:extensions-compose", ver
 essenty-lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "essenty" }
 essenty-statekeeper = { module = "com.arkivanov.essenty:state-keeper", version.ref = "essenty" }
 essenty-instancekeeper = { module = "com.arkivanov.essenty:instance-keeper", version.ref = "essenty" }
+essenty-backhandler = { module = "com.arkivanov.essenty:back-handler", version.ref = "essenty" }
 
 mvikotlin = { module = "com.arkivanov.mvikotlin:mvikotlin", version.ref = "mviKotlin" }
 mvikotlin-main = { module = "com.arkivanov.mvikotlin:mvikotlin-main", version.ref = "mviKotlin" }
@@ -117,12 +124,13 @@ imageLoader-core = { module = "io.github.qdsfdhvh:image-loader", version.ref = "
 
 cupertino-decompose = { module = "io.github.alexzhirkevich:cupertino-decompose", version.ref = "cupertino" }
 
+peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekaboo" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
-jb-compose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+jb-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 
@@ -132,6 +140,3 @@ kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kotlinParcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
-
-darwinParcelize = { id = "com.arkivanov.parcelize.darwin", version = "0.1.4" }

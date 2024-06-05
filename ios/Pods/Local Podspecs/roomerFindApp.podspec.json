@@ -13,6 +13,9 @@
   "platforms": {
     "ios": "15.0"
   },
+  "xcconfig": {
+    "ENABLE_USER_SCRIPT_SANDBOXING": "NO"
+  },
   "pod_target_xcconfig": {
     "KOTLIN_PROJECT_PATH": ":roomerFindApp",
     "PRODUCT_MODULE_NAME": "RoomerFind"

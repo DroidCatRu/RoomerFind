@@ -24,6 +24,7 @@ kotlin {
             export(libs.decompose)
             export(libs.essenty.lifecycle)
             export(libs.essenty.instancekeeper)
+            export(libs.essenty.backhandler)
             export(projects.feature.map.api)
             export(projects.feature.root.api)
             export(projects.feature.root.internal)
@@ -45,6 +46,7 @@ kotlin {
         iosMain.dependencies {
             api(libs.essenty.lifecycle)
             api(libs.essenty.instancekeeper)
+            api(libs.essenty.backhandler)
             api(projects.feature.map.api)
             api(projects.feature.root.api)
             api(projects.feature.root.internal)

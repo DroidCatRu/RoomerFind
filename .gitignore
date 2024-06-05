@@ -3,11 +3,15 @@
 *.ap_
 *.aab
 
+docker-compose.local.yaml
+
 # macos files
 *.DS_Store
 
 #idea files
 .idea/*
+
+.kotlin/*
 
 # Files for the ART/Dalvik VM
 *.dex

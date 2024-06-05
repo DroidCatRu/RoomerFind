@@ -21,5 +21,6 @@ fun UserData.toUserPreferences() = UserPreferencesDTO(
     maxAge = maxAge,
     lat = lat,
     long = long,
+    zoom = zoom,
     radius = radiusKm,
 )

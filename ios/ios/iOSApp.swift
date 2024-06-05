@@ -14,7 +14,7 @@ struct iosApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(rootHolder.root)
+            ContentView(rootHolder.root, rootHolder.backDispatcher)
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                     LifecycleRegistryExtKt.resume(rootHolder.lifecycle)
                 }
@@ -46,17 +46,19 @@ private class RootHolder {
     let lifecycle: LifecycleRegistry
     let instanceKeeper: InstanceKeeperDispatcher
     let root: RootComponent
+    let backDispatcher: BackDispatcher
     
     init() {
         lifecycle = LifecycleRegistryKt.LifecycleRegistry()
         instanceKeeper = InstanceKeeperDispatcherKt.InstanceKeeperDispatcher()
+        backDispatcher = BackDispatcherKt.BackDispatcher()
         
         root = DefaultRootComponentKt.createRootComponent(
             componentContext: DefaultComponentContext(
                 lifecycle: lifecycle,
                 stateKeeper: nil,
                 instanceKeeper: instanceKeeper,
-                backHandler: nil
+                backHandler: backDispatcher
             )
         )
         

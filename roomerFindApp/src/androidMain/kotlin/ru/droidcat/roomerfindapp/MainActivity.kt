@@ -3,8 +3,10 @@ package ru.droidcat.roomerfindapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
 import com.arkivanov.decompose.defaultComponentContext
+import ru.droidcat.feature.map.compose.AndroidMapProvider
 import ru.droidcat.feature.root.internal.createRootComponent
 
 class MainActivity : ComponentActivity() {
@@ -21,6 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             App(
                 rootComponent = rootComponent,
+                nativeMapProvider = AndroidMapProvider(LocalContext.current),
             )
         }
     }

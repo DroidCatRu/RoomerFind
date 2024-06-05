@@ -23,8 +23,7 @@ kotlin {
             implementation(projects.core.mvi)
             api(projects.feature.root.api)
             implementation(projects.feature.auth.internal)
-            implementation(projects.feature.profile.internal)
-            implementation(projects.feature.finders.internal)
+            implementation(projects.feature.main.internal)
         }
     }
 }

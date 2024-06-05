@@ -1,32 +1,28 @@
 package ru.droidcat.feature.profile.internal.ui.profileedit.model
 
-import ru.droidcat.feature.profile.api.model.Contacts
-import ru.droidcat.feature.profile.api.model.UserProfile
+import ru.droidcat.roomerfind.model.network.UserInfoDTO
 
 internal sealed interface Message {
 
     data class SetName(
-        val name: String,
+        val value: String,
     ) : Message
 
     data class SetAge(
-        val age: String,
+        val value: String,
     ) : Message
 
     data class SetDesc(
-        val desc: String,
+        val value: String,
     ) : Message
 
-    data class SetEmail(
-        val email: String,
-    ) : Message
-
-    data class SetPhone(
-        val phone: String,
+    data class SetContacts(
+        val value: String,
     ) : Message
 
     data class SetProfile(
-        val profile: UserProfile.Defined,
-        val contacts: Contacts.Defined,
+        val value: UserInfoDTO,
     ) : Message
+
+    data object SetLoading : Message
 }

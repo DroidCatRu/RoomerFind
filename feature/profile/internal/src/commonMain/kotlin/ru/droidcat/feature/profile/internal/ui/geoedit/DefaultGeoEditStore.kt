@@ -18,9 +18,7 @@ internal class DefaultGeoEditStore(
 ) : Store<GeoEditIntent, GeoEditState, Label> by storeFactory.create(
     name = STORE_NAME,
     initialState = Loading,
-    bootstrapper = SimpleBootstrapper(
-        GetUserGeo,
-    ),
+    bootstrapper = SimpleBootstrapper(GetUserGeo),
     executorFactory = { executor },
     reducer = reducer,
 )

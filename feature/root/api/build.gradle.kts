@@ -21,8 +21,7 @@ kotlin {
         commonMain.dependencies {
             api(libs.decompose)
             api(projects.feature.auth.api)
-            api(projects.feature.profile.api)
-            api(projects.feature.finders.api)
+            api(projects.feature.main.api)
         }
     }
 }

@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import ru.droidcat.core.coroutines.uiDispatcher
 import ru.droidcat.feature.auth.api.usecase.LogOutUseCase
 import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseIntent
+import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseIntent.OnAvatarChange
 import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseIntent.OnBack
 import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseIntent.OnEditGeo
 import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseIntent.OnEditPreferences
@@ -15,10 +16,12 @@ import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseIntent.O
 import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseIntent.OnLogOut
 import ru.droidcat.feature.profile.api.ui.showcase.model.ProfileShowCaseState
 import ru.droidcat.feature.profile.api.usecase.GetProfileUseCase
+import ru.droidcat.feature.profile.api.usecase.UploadAvatarUseCase
 import ru.droidcat.feature.profile.internal.ui.showcase.model.Action
 import ru.droidcat.feature.profile.internal.ui.showcase.model.Action.Init
 import ru.droidcat.feature.profile.internal.ui.showcase.model.Action.LogOut
 import ru.droidcat.feature.profile.internal.ui.showcase.model.Action.Update
+import ru.droidcat.feature.profile.internal.ui.showcase.model.Action.UploadAvatar
 import ru.droidcat.feature.profile.internal.ui.showcase.model.Label
 import ru.droidcat.feature.profile.internal.ui.showcase.model.Label.BackRequested
 import ru.droidcat.feature.profile.internal.ui.showcase.model.Label.EditGeoRequested
@@ -30,6 +33,7 @@ import ru.droidcat.feature.profile.internal.ui.showcase.model.Message.SetLoading
 internal class DefaultShowCaseExecutor(
     private val getProfileUseCase: GetProfileUseCase,
     private val logOutUseCase: LogOutUseCase,
+    private val uploadAvatarUseCase: UploadAvatarUseCase,
 ) : CoroutineExecutor<ProfileShowCaseIntent, Action, ProfileShowCaseState, Message, Label>(uiDispatcher) {
 
     override fun executeAction(action: Action) {
@@ -59,12 +63,19 @@ internal class DefaultShowCaseExecutor(
             is LogOut -> scope.launch {
                 logOutUseCase.invoke()
             }
+
+            is UploadAvatar -> scope.launch {
+                uploadAvatarUseCase.uploadAvatar(action.bytes).onSuccess {
+                    forward(Update)
+                }
+            }
         }
     }
 
     override fun executeIntent(intent: ProfileShowCaseIntent) {
         super.executeIntent(intent)
         when (intent) {
+            is OnAvatarChange -> forward(UploadAvatar(intent.bytes))
             is OnEditProfile -> publish(EditProfileRequested)
             is OnEditPreferences -> publish(EditPreferencesRequested)
             is OnEditGeo -> publish(EditGeoRequested)

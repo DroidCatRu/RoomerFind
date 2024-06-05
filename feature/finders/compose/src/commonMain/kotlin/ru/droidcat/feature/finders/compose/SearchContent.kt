@@ -96,9 +96,10 @@ private fun SearchComponent.ProfileCard(
 ) {
     Box(
         modifier = modifier
-            .clickable { accept(OnFinderProfileTap(state.id)) }
             .shadow(18.dp)
-            .clip(MaterialTheme.shapes.medium),
+            .clip(MaterialTheme.shapes.medium)
+            .clickable { accept(OnFinderProfileTap(state.id)) }
+            .background(MaterialTheme.colorScheme.background),
     ) {
         state.avatar?.let { url ->
             AsyncImage(

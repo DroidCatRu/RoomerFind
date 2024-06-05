@@ -12,8 +12,5 @@ internal sealed interface RootStackConfig {
     data object AuthConfig : RootStackConfig
 
     @Serializable
-    data object ProfileConfig : RootStackConfig
-
-    @Serializable
-    data object FindersConfig : RootStackConfig
+    data object MainConfig : RootStackConfig
 }

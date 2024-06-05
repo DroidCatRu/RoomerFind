@@ -16,6 +16,7 @@ object UserTable : LongIdTable("users") {
 
     val lat = double("latitude").default(0.0)
     val long = double("longitude").default(0.0)
+    val zoom = double("zoom").default(5.0)
     val radiusKm = double("radiusKm").default(1.0)
 
     val minPrice = integer("minPrice").default(0)
@@ -38,6 +39,7 @@ data class UserData(
 
     val lat: Double = 0.0,
     val long: Double = 0.0,
+    val zoom: Double = 5.0,
     val radiusKm: Double = 1.0,
 
     val minPrice: Int = 0,
@@ -62,6 +64,7 @@ fun ResultRow.toUserData(
 
     lat = this[UserTable.lat],
     long = this[UserTable.long],
+    zoom = this[UserTable.zoom],
     radiusKm = this[UserTable.radiusKm],
 
     minPrice = this[UserTable.minPrice],

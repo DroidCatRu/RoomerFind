@@ -20,17 +20,16 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(compose.runtime)
-            api(compose.foundation)
-            api(compose.material3)
+            api(libs.compose.runtime)
+            api(libs.compose.foundation)
+            api(libs.compose.material3)
             api(libs.decompose)
             api(libs.decompose.compose)
+            api(libs.cupertino.decompose)
             api(libs.imageLoader.core)
         }
         androidMain.dependencies {
-            api(compose.ui)
-            api(compose.uiTooling)
-            api(compose.preview)
+            api(libs.compose.ui)
 
             api(libs.androidx.activity.compose)
         }

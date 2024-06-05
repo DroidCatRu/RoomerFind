@@ -16,9 +16,11 @@ import io.ktor.http.appendPathSegments
 import io.ktor.http.contentType
 import io.ktor.http.takeFrom
 import io.ktor.serialization.kotlinx.json.json
+import io.ktor.utils.io.ByteReadChannel
 import kotlinx.serialization.json.Json
 import ru.droidcat.core.coroutines.requestWrapper
 import ru.droidcat.feature.auth.api.usecase.TokenUseCase
+import ru.droidcat.roomerfind.model.network.AVATAR_ENDPOINT
 import ru.droidcat.roomerfind.model.network.USER_INFO_ENDPOINT
 import ru.droidcat.roomerfind.model.network.UrlProvider
 import ru.droidcat.roomerfind.model.network.UserInfoDTO
@@ -68,6 +70,18 @@ class RemoteProfileRepository(
             }
             contentType(ContentType.Application.Json)
             setBody(profile)
+        }
+    }
+
+    suspend fun uploadAvatar(bytes: ByteArray): Result<Unit> = requestWrapper {
+        httpClient.put {
+            bearerAuth(tokenUseCase.getTokenForRequest())
+            url {
+                takeFrom(urlProvider.getBasePath())
+                appendPathSegments(AVATAR_ENDPOINT)
+            }
+            contentType(ContentType.Image.JPEG)
+            setBody(ByteReadChannel(bytes))
         }
     }
 }

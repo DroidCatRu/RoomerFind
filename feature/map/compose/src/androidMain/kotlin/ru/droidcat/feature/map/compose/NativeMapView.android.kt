@@ -5,6 +5,7 @@ import com.mapbox.mapboxsdk.camera.CameraPosition
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.MapView
+import ru.droidcat.feature.map.api.model.LatLng as MapLatLng
 
 actual class NativeMapView(
     val view: View,
@@ -16,18 +17,14 @@ class AndroidMapController(
 ) : MapController {
 
     override fun setCameraLocation(
-        lat: Double,
-        lon: Double,
+        center: MapLatLng,
         zoom: Double,
     ) {
         view.getMapAsync { map ->
             val cameraUpdate = CameraUpdateFactory.newCameraPosition(
                 CameraPosition.Builder()
                     .target(
-                        LatLng(
-                            latitude = lat,
-                            longitude = lon,
-                        )
+                        center.nativeLatLng,
                     )
                     .zoom(zoom)
                     .build(),
@@ -36,3 +33,8 @@ class AndroidMapController(
         }
     }
 }
+
+val MapLatLng.nativeLatLng: LatLng get() = LatLng(
+    latitude = lat,
+    longitude = long,
+)

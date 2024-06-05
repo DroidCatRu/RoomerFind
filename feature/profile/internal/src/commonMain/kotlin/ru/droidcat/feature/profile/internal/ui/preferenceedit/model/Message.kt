@@ -1,8 +1,10 @@
 package ru.droidcat.feature.profile.internal.ui.preferenceedit.model
 
-import ru.droidcat.feature.profile.api.model.UserPreference
+import ru.droidcat.roomerfind.model.network.UserInfoDTO
 
 internal sealed interface Message {
+
+    data object SetLoading : Message
 
     data class SetMinValue(
         val value: String,
@@ -13,14 +15,14 @@ internal sealed interface Message {
     ) : Message
 
     data class SetMinAge(
-        val age: String,
+        val value: String,
     ) : Message
 
     data class SetMaxAge(
-        val age: String,
+        val value: String,
     ) : Message
 
-    data class SetPreference(
-        val preference: UserPreference.Defined,
+    data class SetProfile(
+        val value: UserInfoDTO,
     ) : Message
 }

@@ -7,4 +7,6 @@ internal sealed interface Action {
     data object Update : Action
 
     data object LogOut : Action
+
+    data class UploadAvatar(val bytes: ByteArray) : Action
 }

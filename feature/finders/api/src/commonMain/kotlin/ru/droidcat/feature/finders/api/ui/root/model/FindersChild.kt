@@ -9,5 +9,3 @@ sealed interface FindersChild {
 
     data class ProfileChild(val component: FinderProfileComponent) : FindersChild
 }
-
-sealed interface ChildWithNavigationBar

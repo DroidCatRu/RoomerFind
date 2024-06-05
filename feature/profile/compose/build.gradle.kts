@@ -23,6 +23,7 @@ kotlin {
             implementation(projects.core.ui)
             implementation(projects.feature.profile.api)
             implementation(projects.feature.map.compose)
+            implementation(libs.peekaboo.image.picker)
         }
     }
 }

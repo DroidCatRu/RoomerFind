@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,8 +20,6 @@ actual fun MapView(
 ) {
     val viewState by component.viewState.collectAsState()
 
-    val cameraPosition by remember { derivedStateOf { viewState.markerPosition } }
-
     var map: NativeMapView? by remember { mutableStateOf(null) }
 
     DisposableEffect(nativeMapProvider) {
@@ -33,12 +30,11 @@ actual fun MapView(
         }
     }
 
-    LaunchedEffect(cameraPosition, map) {
+    LaunchedEffect(viewState, map) {
         map?.apply {
             controller.setCameraLocation(
-                lat = cameraPosition.lat,
-                lon = cameraPosition.lon,
-                zoom = cameraPosition.zoom,
+                center = viewState.center,
+                zoom = viewState.zoom,
             )
         }
     }
